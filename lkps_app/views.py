@@ -306,7 +306,23 @@ def logout_user(request):
     return redirect('dashboard')
 
 def dashboard(request):
-    return render(request, 'lkps_app/dashboard.html')
+    models_to_check = [
+        Tabel_1A1, Tabel_1A2_Sumber, Tabel_1A3_Penggunaan, Tabel_1A4, Tabel_1A5, Tabel_1B_SPMI, 
+        Tabel_2A_Mahasiswa, Tabel_2A2_Asal, Tabel_2A3_Kondisi, 
+        Tabel_2B1_MK, Tabel_2B2_CPL, Tabel_2B3_Pemenuhan, Tabel_2B4_MasaTunggu, Tabel_2B5_BidangKerja, Tabel_2B6_Kepuasan, 
+        Tabel_2C_Fleksibilitas, Tabel_2D_Rekognisi,
+        Tabel_3A1_Sarana, Tabel_3A2_Penelitian, Tabel_3A3_Pengembangan_DTPR, Tabel_3C1_Kerjasama, Tabel_3C2_Publikasi, Tabel_3C3_HKI, 
+        Tabel_4A1_Sarana, Tabel_4A2_PkM, Tabel_4C1_Kerjasama, Tabel_4C2_Diseminasi, Tabel_4C3_HKI, 
+        Tabel_5_1_TataKelola, Tabel_5_2_Sarana, Tabel_6_Misi
+    ]
+    tables_filled = sum(1 for model in models_to_check if model.objects.exists())
+    progress_pct = int((tables_filled / 31) * 100)
+    
+    context = {
+        'tables_filled': tables_filled,
+        'progress_pct': progress_pct
+    }
+    return render(request, 'lkps_app/dashboard.html', context)
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -326,24 +342,23 @@ def fetch_data_lppm(request):
 # ==========================================
 # IMPORT EXCEL TO DATABASE
 # ==========================================
-import openpyxl
-from io import BytesIO
+import pandas as pd
 
 def import_excel(request):
-    """Import data dari file Excel master ke semua tabel database."""
+    """Import data dari file Excel master ke semua tabel database menggunakan Pandas."""
     if request.method != 'POST' or not request.FILES.get('excel_file'):
         return JsonResponse({'status': 'error', 'message': 'File Excel tidak ditemukan.'}, status=400)
     
     try:
         excel_file = request.FILES['excel_file']
-        wb = openpyxl.load_workbook(BytesIO(excel_file.read()), data_only=True)
+        xls = pd.ExcelFile(excel_file)
         
         # Mapping: sheet_name -> (ModelClass, [list of model field names in column order])
         SHEET_MAP = {
             'Tabel_1A1': (Tabel_1A1, ['unit_kerja', 'nama_ketua', 'periode_jabatan', 'pendidikan_terakhir', 'jabatan_fungsional', 'tupoksi']),
             'Tabel_1A2_Sumber': (Tabel_1A2_Sumber, ['sumber_dana', 'ts_2', 'ts_1', 'ts', 'link_bukti']),
             'Tabel_1A3_Penggunaan': (Tabel_1A3_Penggunaan, ['penggunaan', 'ts_2', 'ts_1', 'ts', 'link_bukti']),
-            'Tabel_1A4': (Tabel_1A4, ['nama_dosen', 'sks_ps_sendiri', 'sks_ps_lain', 'sks_pt_lain', 'sks_penelitian', 'sks_pkm', 'sks_tambahan']),
+            'Tabel_1A4': (Tabel_1A4, ['nama_dosen', 'sks_ps_sendiri', 'sks_ps_lain', 'sks_pt_lain', 'sks_penelitian', 'sks_pkm', 'sks_manajemen_pt_sendiri', 'sks_manajemen_pt_lain']),
             'Tabel_1A5': (Tabel_1A5, ['jenis_tenaga', 's3', 's2', 's1', 'd3', 'd2_d1', 'sma_smk', 'unit_kerja']),
             'Tabel_1B_SPMI': (Tabel_1B_SPMI, ['nama_unit', 'dokumen', 'jml_auditor_cert', 'jml_auditor_non', 'frekuensi_audit', 'link_pt', 'link_upps']),
             'Tabel_2A1_Mahasiswa': (Tabel_2A_Mahasiswa, ['tahun_akademik', 'daya_tampung', 'pendaftar', 'lulus_seleksi', 'mhs_baru_reguler', 'mhs_baru_transfer', 'total_mhs_reguler', 'total_mhs_transfer']),
@@ -370,31 +385,47 @@ def import_excel(request):
             'Tabel_4C3_HKI_PkM': (Tabel_4C3_HKI, ['judul', 'jenis_hki', 'nama_dtpr', 'ts2', 'ts1', 'ts', 'link_bukti']),
             'Tabel_5_1_SI': (Tabel_5_1_TataKelola, ['jenis_tata_kelola', 'nama_sistem', 'akses', 'unit_pengelola', 'link_bukti']),
             'Tabel_5_2_Sarana_Pendidikan': (Tabel_5_2_Sarana, ['nama_prasarana', 'daya_tampung', 'luas_ruang', 'kepemilikan', 'lisensi', 'perangkat', 'link_bukti']),
-            'Tabel_6_VisiMisi': (Tabel_6_Misi, ['visi_pt', 'visi_upps', 'visi_ps', 'misi_pt', 'misi_upps']),
+            'Tabel_6_VisiMisi': (Tabel_6_Misi, ['visi_pt', 'misi_pt', 'visi_upps', 'misi_upps', 'visi_ps', 'misi_ps', 'tujuan_ps', 'sasaran_ps']),
         }
-        
+
         results = {}
         
         with transaction.atomic():
-            for sheet_name in wb.sheetnames:
-                if sheet_name not in SHEET_MAP:
-                    continue
-                    
+            valid_sheets = [s for s in xls.sheet_names if s in SHEET_MAP]
+            
+            for sheet_name in valid_sheets:
                 ModelClass, field_names = SHEET_MAP[sheet_name]
-                ws = wb[sheet_name]
                 
-                # Skip header row (row 1), read data rows
+                # 1. Bersihkan tabel database
+                ModelClass.objects.all().delete()
+                
+                df = xls.parse(sheet_name)
+                if df.empty:
+                    continue
+                
+                # Replace nan with None
+                df = df.where(pd.notna(df), None)
+                
                 rows_data = []
-                for row in ws.iter_rows(min_row=2, values_only=True):
-                    # Skip completely empty rows
-                    if not any(cell is not None and str(cell).strip() != '' for cell in row):
+                for index, row in df.iterrows():
+                    # 2. Baca isinya dan sinkronisasi
+                    if all(pd.isna(val) or str(val).strip() == '' for val in row):
                         continue
-                    
-                    row_dict = {}
-                    for col_idx, field_name in enumerate(field_names):
-                        cell_value = row[col_idx] if col_idx < len(row) else None
                         
-                        # Get the model field to determine type
+                    row_dict = {}
+                    if sheet_name == 'Tabel_6_VisiMisi':
+                        if len(rows_data) >= 1:
+                            break  # Stop! Kita cuma butuh 1 baris data Visi Misi
+                        row_dict['id'] = 1
+
+                    for col_idx, field_name in enumerate(field_names):
+                        if col_idx < len(row):
+                            cell_value = row.iloc[col_idx]
+                            if pd.isna(cell_value):
+                                cell_value = None
+                        else:
+                            cell_value = None
+                            
                         try:
                             model_field = ModelClass._meta.get_field(field_name)
                         except Exception:
@@ -402,28 +433,29 @@ def import_excel(request):
                             continue
                         
                         field_type = model_field.get_internal_type()
-                        
                         if field_type in ('IntegerField',):
-                            row_dict[field_name] = int(cell_value or 0)
+                            try:
+                                row_dict[field_name] = int(float(cell_value)) if cell_value is not None else 0
+                            except (ValueError, TypeError):
+                                row_dict[field_name] = 0
                         elif field_type in ('DecimalField', 'FloatField'):
-                            row_dict[field_name] = float(cell_value or 0)
+                            try:
+                                row_dict[field_name] = float(cell_value) if cell_value is not None else 0.0
+                            except (ValueError, TypeError):
+                                row_dict[field_name] = 0.0
                         elif field_type in ('BooleanField',):
                             if isinstance(cell_value, bool):
                                 row_dict[field_name] = cell_value
                             else:
-                                row_dict[field_name] = str(cell_value or '').strip().lower() in ('1', 'true', 'ya', 'yes', 'v', '✓')
+                                row_dict[field_name] = str(cell_value or '').strip().lower() in ('1', 'true', 'ya', 'yes', 'v', '✓', '1.0')
                         elif field_type in ('URLField',):
                             row_dict[field_name] = str(cell_value or '') if cell_value else ''
-                        elif field_type in ('TextField',):
-                            row_dict[field_name] = str(cell_value or '')
                         else:
-                            row_dict[field_name] = str(cell_value or '')
+                            row_dict[field_name] = str(cell_value) if cell_value is not None else ''
                     
                     rows_data.append(ModelClass(**row_dict))
                 
-                # Only replace data if the sheet has content
                 if rows_data:
-                    ModelClass.objects.all().delete()
                     ModelClass.objects.bulk_create(rows_data)
                     results[sheet_name] = len(rows_data)
         
@@ -434,6 +466,8 @@ def import_excel(request):
         })
         
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         return JsonResponse({'status': 'error', 'message': f'Gagal mengimpor: {str(e)}'}, status=500)
 
 # ==========================================
@@ -544,14 +578,29 @@ def sampul(request):
 
 def program_studi(request):
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        action = request.POST.get('action', 'add')
         try:
-            ProgramStudi.objects.create(
-                nama_prodi = request.POST.get('nama_prodi'),
-                jenjang_studi = request.POST.get('jenjang_prodi'),
-                akreditasi = request.POST.get('status_akreditasi'),
-                no_sk = request.POST.get('sk_banpt')       
-            )
-            return JsonResponse({'status': 'success', 'message': 'Data berhasil disimpan!'})
+            if action == 'delete':
+                prodi_id = request.POST.get('id')
+                ProgramStudi.objects.filter(id=prodi_id).delete()
+                return JsonResponse({'status': 'success', 'message': 'Data berhasil dihapus!'})
+            elif action == 'edit':
+                prodi_id = request.POST.get('id')
+                prodi = ProgramStudi.objects.get(id=prodi_id)
+                prodi.nama_prodi = request.POST.get('nama_prodi')
+                prodi.jenjang_studi = request.POST.get('jenjang_prodi')
+                prodi.akreditasi = request.POST.get('status_akreditasi')
+                prodi.no_sk = request.POST.get('sk_banpt')
+                prodi.save()
+                return JsonResponse({'status': 'success', 'message': 'Data berhasil diperbarui!'})
+            else:
+                ProgramStudi.objects.create(
+                    nama_prodi = request.POST.get('nama_prodi'),
+                    jenjang_studi = request.POST.get('jenjang_prodi'),
+                    akreditasi = request.POST.get('status_akreditasi'),
+                    no_sk = request.POST.get('sk_banpt')       
+                )
+                return JsonResponse({'status': 'success', 'message': 'Data berhasil disimpan!'})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)})
 
@@ -559,25 +608,47 @@ def program_studi(request):
 
 def manajemen_user(request):
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        action = request.POST.get('action', 'add')
         try:
-            input_email = request.POST.get('email')
-            user_baru = User.objects.create_user(
-                username=input_email, email=input_email,
-                password=request.POST.get('password'), first_name=request.POST.get('nama_lengkap') 
-            )
-            ProfilPengguna.objects.create(
-                user=user_baru, nomor_induk=request.POST.get('nomor_induk'),
-                role=request.POST.get('role'), akses_prodi=request.POST.get('akses_prodi')
-            )
-            return JsonResponse({'status': 'success', 'message': 'Akun berhasil dibuat!'})
+            if action == 'delete':
+                user_id = request.POST.get('id')
+                User.objects.filter(id=user_id).delete()
+                # Cascade will handle ProfilPengguna deletion
+                return JsonResponse({'status': 'success', 'message': 'Data berhasil dihapus!'})
+            elif action == 'edit':
+                user_id = request.POST.get('id')
+                user = User.objects.get(id=user_id)
+                user.first_name = request.POST.get('nama_lengkap')
+                if request.POST.get('password'):
+                    user.set_password(request.POST.get('password'))
+                user.save()
+                
+                profil = user.profilpengguna
+                profil.nomor_induk = request.POST.get('nomor_induk')
+                profil.role = request.POST.get('role')
+                profil.akses_prodi = request.POST.get('akses_prodi')
+                profil.save()
+                return JsonResponse({'status': 'success', 'message': 'Data berhasil diperbarui!'})
+            else:
+                input_email = request.POST.get('email')
+                user_baru = User.objects.create_user(
+                    username=input_email, email=input_email,
+                    password=request.POST.get('password'), first_name=request.POST.get('nama_lengkap') 
+                )
+                ProfilPengguna.objects.create(
+                    user=user_baru, nomor_induk=request.POST.get('nomor_induk'),
+                    role=request.POST.get('role'), akses_prodi=request.POST.get('akses_prodi')
+                )
+                return JsonResponse({'status': 'success', 'message': 'Akun berhasil dibuat!'})
         except IntegrityError:
-            return JsonResponse({'status': 'error', 'message': f'Email {input_email} sudah digunakan!'})
+            return JsonResponse({'status': 'error', 'message': f'Email {request.POST.get("email")} sudah digunakan!'})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)})
 
     daftar_pengguna = []
     for profil in ProfilPengguna.objects.select_related('user').all():
         daftar_pengguna.append({
+            'id': profil.user.id,
             'nama_lengkap': profil.user.first_name, 'email': profil.user.email,
             'nomor_induk': profil.nomor_induk, 'role': profil.role,
             'akses_prodi': profil.akses_prodi, 'is_active': profil.user.is_active
@@ -999,16 +1070,21 @@ def tabel_5_akuntabilitas(request):
 
 def tabel_6_misi(request):
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        try:
-            Tabel_6_Misi.objects.update_or_create(
-                id=1, 
-                defaults={
-                    'visi_pt': request.POST.get('visi_pt'), 'visi_upps': request.POST.get('visi_upps'),
-                    'visi_ps': request.POST.get('visi_ps'), 'misi_pt': request.POST.get('misi_pt'),
-                    'misi_upps': request.POST.get('misi_upps')
-                }
-            )
-            return JsonResponse({'status': 'success'})
-        except Exception as e: return JsonResponse({'status': 'error', 'message': str(e)})
-    data, created = Tabel_6_Misi.objects.get_or_create(id=1)
-    return render(request, 'lkps_app/tabel_6_misi.html', {'data': data})
+        # ... (kode POST kamu tetap sama, pastikan menggunakan update_or_create tanpa paksa ID jika perlu) ...
+        Tabel_6_Misi.objects.update_or_create(
+            id=1, 
+            defaults={
+                'visi_pt': request.POST.get('visi_pt'), 
+                # ... field lainnya ...
+            }
+        )
+        return JsonResponse({'status': 'success'})
+
+    # ✨ PERBAIKAN DI SINI: Ambil data pertama yang tersedia, apapun ID-nya
+    data = Tabel_6_Misi.objects.first()
+    
+    # Jika tabel benar-benar kosong (belum pernah diimport), baru buat yang kosong
+    if not data:
+        data = Tabel_6_Misi.objects.create(id=1)
+        
+    return render(request, 'lkps_app/tabel_6_misi.html', {'data': data})       

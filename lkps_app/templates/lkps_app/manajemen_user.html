@@ -67,8 +67,8 @@
                         </td>
                         
                         <td class="text-center">
-                            <button class="btn btn-sm btn-outline-primary me-1" title="Edit"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-sm btn-outline-danger" title="Hapus"><i class="fas fa-trash"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline-primary me-1 btn-edit-user" data-id="{{ pengguna.id }}" data-nama="{{ pengguna.nama_lengkap }}" data-email="{{ pengguna.email }}" data-nomor="{{ pengguna.nomor_induk|default:'' }}" data-role="{{ pengguna.role }}" data-akses="{{ pengguna.akses_prodi }}" title="Edit"><i class="fas fa-edit"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline-danger btn-delete-user" data-id="{{ pengguna.id }}" title="Hapus"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                     {% empty %}
@@ -103,6 +103,8 @@
             
             <form id="formTambahUser">
                 {% csrf_token %}
+                <input type="hidden" name="action" id="userAction" value="add">
+                <input type="hidden" name="id" id="userId" value="">
                 <div class="modal-body px-4 py-4">
                     <div class="row g-3">
                         <div class="col-md-6">
@@ -118,8 +120,8 @@
                             <input type="email" class="form-control" name="email" id="inputEmail" placeholder="andi@pradita.ac.id" required>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label text-muted small fw-bold">Password Sementara</label>
-                            <input type="password" class="form-control" name="password" id="inputPassword" placeholder="Buat password awal..." required>
+                            <label class="form-label text-muted small fw-bold">Password</label>
+                            <input type="password" class="form-control" name="password" id="inputPassword" placeholder="Kosongkan jika tidak ingin diubah (Edit)">
                         </div>
                         
                         <div class="col-12 mt-4">
@@ -163,6 +165,72 @@
 document.addEventListener('DOMContentLoaded', function() {
     const formUser = document.getElementById('formTambahUser');
     const btnSimpan = document.getElementById('btnSimpanUser');
+    const modalTitle = document.getElementById('modalTambahUserLabel');
+    const actionInput = document.getElementById('userAction');
+    const idInput = document.getElementById('userId');
+    const inputPassword = document.getElementById('inputPassword');
+    const inputEmail = document.getElementById('inputEmail');
+    
+    // Reset modal when opened for ADD
+    document.querySelector('[data-bs-target="#modalTambahUser"]').addEventListener('click', function() {
+        formUser.reset();
+        modalTitle.innerText = 'Tambah Pengguna Baru';
+        actionInput.value = 'add';
+        idInput.value = '';
+        inputPassword.required = true;
+        inputEmail.readOnly = false;
+    });
+
+    // Handle Edit Buttons
+    document.querySelectorAll('.btn-edit-user').forEach(btn => {
+        btn.addEventListener('click', function() {
+            modalTitle.innerText = 'Edit Pengguna';
+            actionInput.value = 'edit';
+            idInput.value = this.getAttribute('data-id');
+            document.getElementById('inputNamaUser').value = this.getAttribute('data-nama');
+            document.getElementById('inputNIDN').value = this.getAttribute('data-nomor');
+            
+            inputEmail.value = this.getAttribute('data-email');
+            inputEmail.readOnly = true; // Email biasanya tidak diganti atau diurus terpisah
+            
+            inputPassword.required = false; // Karena edit, password opsional
+            inputPassword.value = '';
+            
+            document.getElementById('inputRole').value = this.getAttribute('data-role');
+            document.getElementById('inputAksesProdi').value = this.getAttribute('data-akses');
+            
+            var myModal = new bootstrap.Modal(document.getElementById('modalTambahUser'));
+            myModal.show();
+        });
+    });
+
+    // Handle Delete Buttons
+    document.querySelectorAll('.btn-delete-user').forEach(btn => {
+        btn.addEventListener('click', function() {
+            if(confirm('Apakah Anda yakin ingin menghapus pengguna ini?')) {
+                const id = this.getAttribute('data-id');
+                const formData = new FormData();
+                formData.append('action', 'delete');
+                formData.append('id', id);
+                formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+
+                fetch(window.location.href, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.status === 'success') {
+                        window.location.reload();
+                    } else {
+                        alert('Gagal menghapus: ' + data.message);
+                    }
+                })
+                .catch(err => alert('Terjadi kesalahan'));
+            }
+        });
+    });
     
     if(formUser) {
         formUser.addEventListener('submit', function(e) {

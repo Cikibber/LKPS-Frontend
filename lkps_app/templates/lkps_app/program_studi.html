@@ -47,8 +47,8 @@
                         
                         <td class="text-muted small">{{ prodi.no_sk }}</td>
                         <td class="text-center">
-                            <button class="btn btn-sm btn-outline-primary me-1" title="Edit"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-sm btn-outline-danger" title="Hapus"><i class="fas fa-trash"></i></button>
+                            <button class="btn btn-sm btn-outline-primary me-1 btn-edit" data-id="{{ prodi.id }}" data-nama="{{ prodi.nama_prodi }}" data-jenjang="{{ prodi.jenjang_studi }}" data-akreditasi="{{ prodi.akreditasi }}" data-sk="{{ prodi.no_sk }}" title="Edit"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-sm btn-outline-danger btn-delete" data-id="{{ prodi.id }}" title="Hapus"><i class="fas fa-trash"></i></button>
                         </td>
                     </tr>
                     {% empty %}
@@ -83,6 +83,8 @@
             
             <form id="formTambahProdi">
                 {% csrf_token %}
+                <input type="hidden" name="action" id="prodiAction" value="add">
+                <input type="hidden" name="id" id="prodiId" value="">
                 <div class="modal-body px-4 py-4">
                     <div class="mb-3">
                         <label class="form-label text-muted small fw-bold">Nama Program Studi</label>
@@ -130,6 +132,61 @@
 document.addEventListener('DOMContentLoaded', function() {
     const formProdi = document.getElementById('formTambahProdi');
     const btnSimpan = document.getElementById('btnSimpanProdi');
+    const modalTitle = document.getElementById('modalTambahProdiLabel');
+    const actionInput = document.getElementById('prodiAction');
+    const idInput = document.getElementById('prodiId');
+    
+    // Reset modal when opened for ADD
+    document.querySelector('[data-bs-target="#modalTambahProdi"]').addEventListener('click', function() {
+        formProdi.reset();
+        modalTitle.innerText = 'Tambah Program Studi';
+        actionInput.value = 'add';
+        idInput.value = '';
+    });
+
+    // Handle Edit Buttons
+    document.querySelectorAll('.btn-edit').forEach(btn => {
+        btn.addEventListener('click', function() {
+            modalTitle.innerText = 'Edit Program Studi';
+            actionInput.value = 'edit';
+            idInput.value = this.getAttribute('data-id');
+            document.getElementById('inputNamaProdi').value = this.getAttribute('data-nama');
+            document.getElementById('inputJenjang').value = this.getAttribute('data-jenjang');
+            document.getElementById('inputAkreditasi').value = this.getAttribute('data-akreditasi');
+            document.getElementById('inputSK').value = this.getAttribute('data-sk');
+            
+            var myModal = new bootstrap.Modal(document.getElementById('modalTambahProdi'));
+            myModal.show();
+        });
+    });
+
+    // Handle Delete Buttons
+    document.querySelectorAll('.btn-delete').forEach(btn => {
+        btn.addEventListener('click', function() {
+            if(confirm('Apakah Anda yakin ingin menghapus program studi ini?')) {
+                const id = this.getAttribute('data-id');
+                const formData = new FormData();
+                formData.append('action', 'delete');
+                formData.append('id', id);
+                formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+
+                fetch(window.location.href, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.status === 'success') {
+                        window.location.reload();
+                    } else {
+                        alert('Gagal menghapus: ' + data.message);
+                    }
+                })
+                .catch(err => alert('Terjadi kesalahan'));
+            }
+        });
+    });
     
     if(formProdi) {
         formProdi.addEventListener('submit', function(e) {

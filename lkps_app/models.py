@@ -633,15 +633,15 @@ class Tabel_5_2_Sarana(models.Model):
 # ==========================================
 
 class Tabel_6_Misi(models.Model):
+    # Pastikan semuanya TextField agar bisa menampung ribuan karakter
     visi_pt = models.TextField(blank=True, null=True)
-    visi_upps = models.TextField(blank=True, null=True)
-    visi_ps = models.TextField(blank=True, null=True)
     misi_pt = models.TextField(blank=True, null=True)
+    visi_upps = models.TextField(blank=True, null=True)
     misi_upps = models.TextField(blank=True, null=True)
+    visi_ps = models.TextField(blank=True, null=True)
+    misi_ps = models.TextField(blank=True, null=True)
+    tujuan_ps = models.TextField(blank=True, null=True)
+    sasaran_ps = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"Visi & Misi (ID: {self.pk})"
-
-    class Meta:
-        verbose_name = "6 Visi & Misi"
-        verbose_name_plural = "6 Visi & Misi"
+        return "Data Visi Misi"

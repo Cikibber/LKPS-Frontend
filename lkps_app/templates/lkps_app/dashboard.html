@@ -18,11 +18,11 @@
                             <div class="text-xs fw-bold text-primary text-uppercase mb-1">Progres Keseluruhan</div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
-                                    <div class="h5 mb-0 mr-3 fw-bold text-dark" id="progress-pct">0%</div>
+                                    <div class="h5 mb-0 mr-3 fw-bold text-dark" id="progress-pct">{{ progress_pct }}%</div>
                                 </div>
                                 <div class="col px-3">
                                     <div class="progress progress-sm">
-                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 0%; transition: width 0.6s ease;" id="progress-bar"></div>
+                                        <div class="progress-bar bg-primary" role="progressbar" style="width: {{ progress_pct }}%; transition: width 0.6s ease;" id="progress-bar"></div>
                                     </div>
                                 </div>
                             </div>
@@ -41,7 +41,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs fw-bold text-success text-uppercase mb-1">Tabel Terisi</div>
-                            <div class="h5 mb-0 fw-bold text-dark" id="tables-filled">- dari 31 Tabel</div>
+                            <div class="h5 mb-0 fw-bold text-dark" id="tables-filled">{{ tables_filled }} dari 31 Tabel</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-check-circle fa-2x text-muted opacity-50"></i>
@@ -129,16 +129,15 @@
                     <h5 class="card-title m-0 fs-5">Aksi Cepat</h5>
                 </div>
                 <div class="card-body d-flex flex-column gap-3 justify-content-center p-4">
-                    <a href="{% url 'sampul' %}" class="btn btn-light border text-start px-3 py-3 rounded-3 text-dark fw-medium" style="transition: all 0.2s;">
-                        <i class="fas fa-edit text-primary me-2"></i> Lanjutkan Pengisian Data
+                    <a href="{% url 'sampul' %}" class="btn btn-outline-primary text-start px-3 py-3 rounded-3 fw-bold d-flex align-items-center shadow-sm" style="transition: all 0.2s;">
+                        <i class="fas fa-edit fa-lg me-3"></i> Lanjutkan Pengisian Data
                     </a>
-                    <button class="btn btn-light w-100 text-start border d-flex align-items-center py-3 shadow-sm rounded-3" data-bs-toggle="modal" data-bs-target="#modalPusatUnduhan">
-                        <i class="fas fa-download text-success me-3"></i> 
-                        <span class="fw-medium text-dark">Unduh Template Excel</span>
+                    <button class="btn btn-outline-success w-100 text-start px-3 py-3 rounded-3 fw-bold d-flex align-items-center shadow-sm" data-bs-toggle="modal" data-bs-target="#modalPusatUnduhan">
+                        <i class="fas fa-download fa-lg me-3"></i> Unduh Template Excel
                     </button>
-                    <hr class="my-1 text-muted opacity-25">
-                    <button id="btn-generate" class="btn text-white px-4 py-2 shadow-sm" style="background-color: var(--pradita-navy);">
-                        <i class="fas fa-file-word me-2"></i> Generate ke Word (Final)
+                    <hr class="my-2 border-secondary opacity-25">
+                    <button id="btn-generate" class="btn btn-primary px-3 py-3 rounded-3 fw-bold d-flex align-items-center shadow-sm text-white" style="background-color: var(--pradita-navy); border: none;">
+                        <i class="fas fa-file-word fa-lg me-3"></i> Generate ke Word (Final)
                     </button>
                 </div>
             </div>
