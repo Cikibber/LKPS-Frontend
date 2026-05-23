@@ -11,6 +11,7 @@ from .models import (
     Tabel_3A1_Sarana, Tabel_3A2_Penelitian, Tabel_3A3_Pengembangan_DTPR, Tabel_3C1_Kerjasama, Tabel_3C2_Publikasi, Tabel_3C3_HKI, Tabel_3_Summary,
     Tabel_4A1_Sarana, Tabel_4A2_PkM, Tabel_4C1_Kerjasama, Tabel_4C2_Diseminasi, Tabel_4C3_HKI, Tabel_4_Summary,
     Tabel_5_1_TataKelola, Tabel_5_2_Sarana, Tabel_6_Misi,
+    PengaturanFitur,
 )
 
 
@@ -28,6 +29,16 @@ class UserAdmin(BaseUserAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
+
+
+# ==========================================
+# PENGATURAN FITUR (RBAC)
+# ==========================================
+
+@admin.register(PengaturanFitur)
+class PengaturanFiturAdmin(admin.ModelAdmin):
+    list_display = ('nama_fitur', 'kode_fitur', 'bisa_dilihat_user', 'bisa_diedit_user', 'tampilkan_pengaturan_ke_user')
+    list_editable = ('bisa_dilihat_user', 'bisa_diedit_user', 'tampilkan_pengaturan_ke_user')
 
 
 # ==========================================

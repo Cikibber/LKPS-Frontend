@@ -46,7 +46,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # ─── Proteksi Akses Kriteria (Global RBAC) ───
+    'lkps_app.middleware.KriteriaAccessMiddleware',
 ]
+
 
 ROOT_URLCONF = 'lkps_project.urls'
 
@@ -61,6 +64,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'lkps_app.context_processors.hak_akses_user',
             ],
         },
     },

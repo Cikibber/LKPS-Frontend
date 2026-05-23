@@ -60,4 +60,9 @@ urlpatterns = [
 
     # Kriteria 6 (singleton update_or_create)
     path('kriteria-6/visi-misi/', views.tabel_6_misi, name='tabel_6'),
-]
+
+    # =====================================================
+    # PENGATURAN AKSES KRITERIA (Staff Only)
+    # =====================================================
+    path('pengaturan-akses/', views.halaman_pengaturan_akses, name='halaman_pengaturan_akses'),
+]

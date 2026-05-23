@@ -1,0 +1,179 @@
+{% extends 'lkps_app/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="page-header mb-4">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div>
+            <h1 class="h3 fw-bold mb-1" style="color: #1a1a2e;">
+                <i class="fas fa-shield-alt me-2" style="color: var(--accent-color, #4f46e5);"></i>
+                Pengaturan Akses Kriteria
+            </h1>
+            <p class="text-muted mb-0">
+                Atur izin akses setiap pengguna ke masing-masing Kriteria LKPS (1–9).
+            </p>
+        </div>
+        <div>
+            <span class="badge px-3 py-2 fw-semibold"
+                  style="background: rgba(79,70,229,0.12); color: #4f46e5; border-radius: 8px; font-size: 0.8rem;">
+                <i class="fas fa-lock me-1"></i> Hanya Admin
+            </span>
+        </div>
+    </div>
+</div>
+
+<!-- Notifikasi sukses dari messages framework -->
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show shadow-sm mb-4" role="alert"
+         style="border-left: 4px solid #22c55e; border-radius: 10px;">
+        <i class="fas fa-check-circle me-2 text-success"></i>
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+{% endif %}
+
+<!-- Kartu utama -->
+<div class="card shadow-sm border-0" style="border-radius: 14px; overflow: hidden;">
+    <div class="card-header d-flex align-items-center justify-content-between py-3"
+         style="background: linear-gradient(135deg, #4f46e5, #7c3aed); color: #fff;">
+        <div class="d-flex align-items-center gap-2">
+            <i class="fas fa-table"></i>
+            <span class="fw-semibold">Matriks Izin Akses Pengguna</span>
+        </div>
+        <small class="opacity-75">
+            {{ users|length }} pengguna terdaftar
+        </small>
+    </div>
+
+    <div class="card-body p-0">
+        <form method="POST" action="{% url 'halaman_pengaturan_akses' %}">
+            {% csrf_token %}
+
+            {% if users %}
+            <div class="table-responsive">
+                <table class="table table-hover mb-0 align-middle" id="tabel-akses">
+                    <thead>
+                        <tr style="background: rgba(79,70,229,0.06);">
+                            <th class="ps-4 py-3 text-muted fw-semibold" style="width: 50px;">#</th>
+                            <th class="py-3 text-muted fw-semibold" style="min-width: 200px;">Nama Pengguna</th>
+                            {% for k in range_kriteria %}
+                            <th class="py-3 text-center text-muted fw-semibold" style="min-width: 80px;">
+                                K{{ k }}
+                                <div class="small fw-normal" style="font-size: 0.65rem; color: #a0aec0;">Kriteria {{ k }}</div>
+                            </th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td class="ps-4 text-muted" style="font-size: 0.85rem;">{{ forloop.counter }}</td>
+                            <td class="py-3">
+                                <div class="d-flex align-items-center gap-2">
+                                    <div class="rounded-circle d-flex align-items-center justify-content-center"
+                                         style="width: 36px; height: 36px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-size: 0.8rem; font-weight: 700; flex-shrink: 0;">
+                                        {{ user.username|first|upper }}
+                                    </div>
+                                    <div>
+                                        <div class="fw-semibold" style="color: #1a1a2e; font-size: 0.9rem;">
+                                            {{ user.get_full_name|default:user.username }}
+                                        </div>
+                                        <div class="small text-muted">{{ user.username }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            {% for k in range_kriteria %}
+                            <td class="text-center py-3">
+                                <div class="form-check d-flex justify-content-center mb-0">
+                                    <input
+                                        class="form-check-input akses-checkbox"
+                                        type="checkbox"
+                                        id="kriteria_{{ k }}_{{ user.id }}"
+                                        name="kriteria_{{ k }}_{{ user.id }}"
+                                        style="width: 18px; height: 18px; cursor: pointer;"
+                                        {% if user.akses_kriteria %}
+                                            {% if k == 1 and user.akses_kriteria.akses_kriteria_1 %}checked{% endif %}
+                                            {% if k == 2 and user.akses_kriteria.akses_kriteria_2 %}checked{% endif %}
+                                            {% if k == 3 and user.akses_kriteria.akses_kriteria_3 %}checked{% endif %}
+                                            {% if k == 4 and user.akses_kriteria.akses_kriteria_4 %}checked{% endif %}
+                                            {% if k == 5 and user.akses_kriteria.akses_kriteria_5 %}checked{% endif %}
+                                            {% if k == 6 and user.akses_kriteria.akses_kriteria_6 %}checked{% endif %}
+                                            {% if k == 7 and user.akses_kriteria.akses_kriteria_7 %}checked{% endif %}
+                                            {% if k == 8 and user.akses_kriteria.akses_kriteria_8 %}checked{% endif %}
+                                            {% if k == 9 and user.akses_kriteria.akses_kriteria_9 %}checked{% endif %}
+                                        {% endif %}
+                                    >
+                                </div>
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center py-5">
+                <i class="fas fa-users-slash fa-3x text-muted mb-3"></i>
+                <p class="text-muted">Belum ada pengguna biasa yang terdaftar.</p>
+                <a href="{% url 'manajemen_user' %}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-user-plus me-1"></i> Tambah Pengguna
+                </a>
+            </div>
+            {% endif %}
+
+            <!-- Footer form dengan tombol simpan -->
+            {% if users %}
+            <div class="p-4 d-flex align-items-center justify-content-between flex-wrap gap-3"
+                 style="background: rgba(79,70,229,0.04); border-top: 1px solid rgba(79,70,229,0.12);">
+                <div class="small text-muted">
+                    <i class="fas fa-info-circle me-1"></i>
+                    Centang untuk mengizinkan akses. Kosong berarti akses ditolak (403).
+                </div>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">Simpan Peraturan</button>
+                </div>
+            </div>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+<!-- Keterangan Kriteria (hardcoded — tanpa filter |split yang tidak ada di Django) -->
+<div class="row mt-4 g-3">
+    {% for keterangan in kriteria_keterangan %}
+    <div class="col-6 col-md-4 col-lg-3">
+        <div class="d-flex align-items-center gap-2 p-2 rounded-3"
+             style="background: rgba(79,70,229,0.05); border: 1px solid rgba(79,70,229,0.1);">
+            <span class="badge fw-bold"
+                  style="background: #4f46e5; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 6px; flex-shrink: 0;">
+                {{ keterangan.nomor }}
+            </span>
+            <small class="text-muted">{{ keterangan.label }}</small>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+// Tombol Centang Semua
+document.getElementById('btn-check-all')?.addEventListener('click', function() {
+    document.querySelectorAll('.akses-checkbox').forEach(cb => cb.checked = true);
+});
+
+// Tombol Hapus Semua
+document.getElementById('btn-uncheck-all')?.addEventListener('click', function() {
+    document.querySelectorAll('.akses-checkbox').forEach(cb => cb.checked = false);
+});
+
+// Konfirmasi sebelum simpan
+document.getElementById('form-pengaturan-akses')?.addEventListener('submit', function(e) {
+    const totalChecked = document.querySelectorAll('.akses-checkbox:checked').length;
+    const totalBox = document.querySelectorAll('.akses-checkbox').length;
+    if (!confirm(`Simpan pengaturan akses?\n✅ Diizinkan: ${totalChecked} dari ${totalBox} kombinasi.`)) {
+        e.preventDefault();
+    }
+});
+</script>
+{% endblock %}

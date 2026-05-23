@@ -8,8 +8,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib import messages
 from django.db import transaction
-from django.http import JsonResponse, HttpResponse, Http404
-from django.contrib.auth.decorators import user_passes_test
+from django.http import JsonResponse, HttpResponse, Http404, HttpResponseForbidden
+from django.contrib.auth.decorators import user_passes_test, login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.db import connection
 from docxtpl import DocxTemplate
 from docxtpl import InlineImage
@@ -22,7 +23,8 @@ from .models import (
     Tabel_2C_Fleksibilitas, Tabel_2D_Rekognisi,
     Tabel_3_Summary,Tabel_3A1_Sarana,Tabel_3A2_Penelitian, Tabel_3A3_Pengembangan_DTPR, Tabel_3C1_Kerjasama,Tabel_3C2_Publikasi,Tabel_3C3_HKI, 
     Tabel_4A1_Sarana, Tabel_4A2_PkM, Tabel_4C1_Kerjasama, Tabel_4C2_Diseminasi, Tabel_4C3_HKI, Tabel_4_Summary, 
-    Tabel_5_1_TataKelola, Tabel_5_2_Sarana, Tabel_6_Misi
+    Tabel_5_1_TataKelola, Tabel_5_2_Sarana, Tabel_6_Misi,
+    PengaturanFitur, AksesKriteriaUser
 )
 
 # ==================================================================
@@ -137,6 +139,7 @@ MASTER_MAPPING = {
 # ==================================================================
 # DYNAMIC VIEW — Satu Fungsi untuk Semua Tabel di MASTER_MAPPING
 # ==================================================================
+@login_required(login_url='login')
 def halaman_tabel_dinamis(request, kode_tabel):
     """
     View generik yang menangani GET (render halaman) dan POST (autosave AJAX)
@@ -161,6 +164,7 @@ def halaman_tabel_dinamis(request, kode_tabel):
 # ==========================================
 # EXPORT TO WORD
 # ==========================================
+@login_required(login_url='login')
 def export_lkps_word(request):
     try:
         template_path = str(settings.BASE_DIR / 'static' / 'lkps_app' / 'word_templates' / 'Master_Format_LKPS.docx')
@@ -252,6 +256,7 @@ def chatbot_api(request):
             
     return JsonResponse({'status': 'error', 'message': 'Invalid request'})
 
+@login_required(login_url='login')
 def db_explorer(request):
     query = request.POST.get('q', '') or request.GET.get('q', '')
     results = []
@@ -305,6 +310,7 @@ def logout_user(request):
     auth_logout(request)
     return redirect('dashboard')
 
+@login_required(login_url='login')
 def dashboard(request):
     models_to_check = [
         Tabel_1A1, Tabel_1A2_Sumber, Tabel_1A3_Penggunaan, Tabel_1A4, Tabel_1A5, Tabel_1B_SPMI, 
@@ -344,6 +350,7 @@ def fetch_data_lppm(request):
 # ==========================================
 import pandas as pd
 
+@login_required(login_url='login')
 def import_excel(request):
     """Import data dari file Excel master ke semua tabel database menggunakan Pandas."""
     if request.method != 'POST' or not request.FILES.get('excel_file'):
@@ -526,6 +533,7 @@ def universal_table_autosave(request, ModelClass, field_mapping):
 # ==========================================
 # IDENTITAS & PROGRAM STUDI
 # ==========================================
+@login_required(login_url='login')
 def sampul(request):
     prodi_default = ProgramStudi.objects.first()
     if not prodi_default:
@@ -576,6 +584,7 @@ def sampul(request):
 
     return render(request, 'lkps_app/sampul.html', {'data': identitas, 'tim_penyusun': identitas.tim_penyusun.all()})
 
+@login_required(login_url='login')
 def program_studi(request):
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
         action = request.POST.get('action', 'add')
@@ -606,6 +615,7 @@ def program_studi(request):
 
     return render(request, 'lkps_app/program_studi.html', {'daftar_prodi': ProgramStudi.objects.all().order_by('id')})
 
+@login_required(login_url='login')
 def manajemen_user(request):
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
         action = request.POST.get('action', 'add')
@@ -659,6 +669,7 @@ def manajemen_user(request):
 # ==========================================
 # KRITERIA 1: VIEWS DENGAN LOGIKA KHUSUS
 # ==========================================
+@login_required(login_url='login')
 def tabel_1a_dana(request):
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
         try:
@@ -692,6 +703,7 @@ def tabel_1a_dana(request):
     ctx = {'data_sumber': Tabel_1A2_Sumber.objects.all().order_by('id'), 'data_penggunaan': Tabel_1A3_Penggunaan.objects.all().order_by('id')}
     return render(request, 'lkps_app/tabel_1a_dana.html', ctx)
 
+@login_required(login_url='login')
 def tabel_1a4(request):
     # Tabel ini agak unik karena ada penggabungan field tambahan, jadi kita pertahankan manual
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -720,6 +732,7 @@ def tabel_1a4(request):
         except Exception as e: return JsonResponse({'status': 'error', 'message': str(e)})
     return render(request, 'lkps_app/tabel_1a4.html', {'data': Tabel_1A4.objects.all()})
 
+@login_required(login_url='login')
 def tabel_1a5(request):
     # Sama, ada penggabungan (D2+D1, S1+D4)
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -744,6 +757,7 @@ def tabel_1a5(request):
 # ==========================================
 # KRITERIA 2: VIEWS DENGAN LOGIKA KHUSUS
 # ==========================================
+@login_required(login_url='login')
 def tabel_2a1(request):
     for y in ['TS-3', 'TS-2', 'TS-1', 'TS']: Tabel_2A_Mahasiswa.objects.get_or_create(tahun_akademik=y)
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -769,6 +783,7 @@ def tabel_2a1(request):
         except Exception as e: return JsonResponse({'status': 'error', 'message': str(e)})
     return render(request, 'lkps_app/tabel_2a1.html', {'data_2a1': Tabel_2A_Mahasiswa.objects.all().order_by('id')})
 
+@login_required(login_url='login')
 def tabel_2a2(request):
     kategori_asal = ["Kota/Kab sama dengan PS", "Kota/Kabupaten Lain", "Provinsi Lain", "Negara Lain", "Afirmasi", "Berkebutuhan Khusus"]
     for asal in kategori_asal: Tabel_2A2_Asal.objects.get_or_create(asal_mahasiswa=asal)
@@ -787,6 +802,7 @@ def tabel_2a2(request):
         except Exception as e: return JsonResponse({'status': 'error', 'message': str(e)})
     return render(request, 'lkps_app/tabel_2a2.html', {'data_2a2': Tabel_2A2_Asal.objects.all().order_by('id')})
 
+@login_required(login_url='login')
 def tabel_2a3(request):
     kategori_kondisi = ["Mahasiswa Aktif pada saat TS", "Lulus pada saat TS", "Mengundurkan Diri/DO pada saat TS"]
     for kondisi in kategori_kondisi: Tabel_2A3_Kondisi.objects.get_or_create(status=kondisi)
@@ -803,6 +819,7 @@ def tabel_2a3(request):
         except Exception as e: return JsonResponse({'status': 'error', 'message': str(e)})
     return render(request, 'lkps_app/tabel_2a3.html', {'data_2a3': Tabel_2A3_Kondisi.objects.all().order_by('id')})
 
+@login_required(login_url='login')
 def tabel_2a4(request):
     years = ['TS-2', 'TS-1', 'TS']
     for y in years: Tabel_2B4_MasaTunggu.objects.get_or_create(tahun_lulus=y)
@@ -821,6 +838,7 @@ def tabel_2a4(request):
         except Exception as e: return JsonResponse({'status': 'error', 'message': str(e)})
     return render(request, 'lkps_app/tabel_2a4.html', {'data_2b4': Tabel_2B4_MasaTunggu.objects.all().order_by('id')})
 
+@login_required(login_url='login')
 def tabel_2a5(request):
     years = ['TS-2', 'TS-1', 'TS']
     for y in years: Tabel_2B5_BidangKerja.objects.get_or_create(tahun_lulus=y)
@@ -841,6 +859,7 @@ def tabel_2a5(request):
         except Exception as e: return JsonResponse({'status': 'error', 'message': str(e)})
     return render(request, 'lkps_app/tabel_2a5.html', {'data_2b5': Tabel_2B5_BidangKerja.objects.all().order_by('id')})
 
+@login_required(login_url='login')
 def tabel_2a6(request):
     kemampuans = ["Kerjasama Tim", "Keahlian di Bidang Prodi", "Kemampuan Berbahasa Asing (Inggris)", "Kemampuan Berkomunikasi", "Pengembangan Diri", "Kepemimpinan", "Etos Kerja"]
     for k in kemampuans: Tabel_2B6_Kepuasan.objects.get_or_create(jenis_kemampuan=k)
@@ -867,6 +886,7 @@ def tabel_2a6(request):
 # ==========================================
 # KRITERIA 3, 4, 5 & 6: VIEWS DENGAN LOGIKA KHUSUS
 # ==========================================
+@login_required(login_url='login')
 def tabel_3_penelitian(request):
     Tabel_3_Summary.objects.get_or_create(id=1)
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -951,6 +971,7 @@ def tabel_3_penelitian(request):
     }
     return render(request, 'lkps_app/tabel_3_penelitian.html', ctx)
 
+@login_required(login_url='login')
 def tabel_4_pkm(request):
     Tabel_4_Summary.objects.get_or_create(id=1)
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
@@ -1037,6 +1058,7 @@ def tabel_4_pkm(request):
     }
     return render(request, 'lkps_app/tabel_4_pkm.html', ctx)
 
+@login_required(login_url='login')
 def tabel_5_akuntabilitas(request):
     jenis_default = ["Pendidikan", "Keuangan", "SDM", "Sarana Prasarana", "Sistem Penjaminan Mutu"]
     for jenis in jenis_default: Tabel_5_1_TataKelola.objects.get_or_create(jenis_tata_kelola=jenis)
@@ -1068,23 +1090,131 @@ def tabel_5_akuntabilitas(request):
     ctx = {'data_5_1': Tabel_5_1_TataKelola.objects.all(), 'data_5_2': Tabel_5_2_Sarana.objects.all()}
     return render(request, 'lkps_app/tabel_5_akuntabilitas.html', ctx)
 
+@login_required(login_url='login')
 def tabel_6_misi(request):
+    # ============================================================
+    # Feature Toggle: Ambil (atau buat) konfigurasi akses Kriteria 6
+    # ============================================================
+    aturan, _ = PengaturanFitur.objects.get_or_create(
+        kode_fitur='kriteria_6',
+        defaults={
+            'nama_fitur': 'Kriteria 6 - Visi Misi',
+            'bisa_dilihat_user': True,
+            'bisa_diedit_user': False,
+            'tampilkan_pengaturan_ke_user': False,
+        }
+    )
+
+    # Pengecekan akses BACA (Read)
+    # Staff selalu boleh masuk; non-staff cek toggle bisa_dilihat_user
+    if not request.user.is_staff and not aturan.bisa_dilihat_user:
+        return HttpResponseForbidden("Halaman sedang dikunci oleh Admin.")
+
+    # Tentukan apakah user boleh EDIT
+    bisa_edit = request.user.is_staff or aturan.bisa_diedit_user
+
+    # Tentukan apakah panel Pengaturan Akses ditampilkan
+    # Staff selalu melihat panel; non-staff hanya jika toggle diaktifkan
+    bisa_lihat_pengaturan = request.user.is_staff or aturan.tampilkan_pengaturan_ke_user
+
+    # ============================================================
+    # Blok POST: Simpan data (hanya jika bisa_edit)
+    # ============================================================
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        # ... (kode POST kamu tetap sama, pastikan menggunakan update_or_create tanpa paksa ID jika perlu) ...
+        if not bisa_edit:
+            return JsonResponse({'status': 'error', 'message': 'Tidak ada akses'}, status=403)
+
         Tabel_6_Misi.objects.update_or_create(
-            id=1, 
+            id=1,
             defaults={
-                'visi_pt': request.POST.get('visi_pt'), 
-                # ... field lainnya ...
+                'visi_pt': request.POST.get('visi_pt'),
+                'misi_pt': request.POST.get('misi_pt'),
+                'visi_upps': request.POST.get('visi_upps'),
+                'misi_upps': request.POST.get('misi_upps'),
+                'visi_ps': request.POST.get('visi_ps'),
+                'misi_ps': request.POST.get('misi_ps'),
+                'tujuan_ps': request.POST.get('tujuan_ps'),
+                'sasaran_ps': request.POST.get('sasaran_ps'),
             }
         )
         return JsonResponse({'status': 'success'})
 
-    # ✨ PERBAIKAN DI SINI: Ambil data pertama yang tersedia, apapun ID-nya
+    # ============================================================
+    # Blok GET: Ambil data untuk ditampilkan
+    # ============================================================
+    # Ambil data pertama yang tersedia, apapun ID-nya
     data = Tabel_6_Misi.objects.first()
-    
+
     # Jika tabel benar-benar kosong (belum pernah diimport), baru buat yang kosong
     if not data:
         data = Tabel_6_Misi.objects.create(id=1)
+
+    return render(request, 'lkps_app/tabel_6_misi.html', {
+        'data': data,
+        'bisa_edit': bisa_edit,
+        'bisa_lihat_pengaturan': bisa_lihat_pengaturan,
+    })
+
+
+# ==========================================
+# PENGATURAN AKSES KRITERIA (Staff Only)
+# ==========================================
+
+@staff_member_required(login_url='/login/')
+def halaman_pengaturan_akses(request):
+    """
+    Halaman matriks pengaturan akses Kriteria per user.
+    Hanya dapat diakses oleh admin/staff.
+    """
+    JUMLAH_KRITERIA = 9
+
+    # Ambil semua user biasa (bukan superuser/staff)
+    users_biasa = User.objects.filter(is_staff=False, is_superuser=False).order_by('username')
+
+    if request.method == 'POST':
+        print("=== DATA DARI BROWSER ===", request.POST)
         
-    return render(request, 'lkps_app/tabel_6_misi.html', {'data': data})       
+        for user in users_biasa:
+            akses, created = AksesKriteriaUser.objects.get_or_create(user=user)
+            # Loop 1 sampai 9 untuk mengecek setiap checkbox
+            for i in range(1, 10):
+                # Pastikan format 'name' input checkbox di template sesuai dengan string ini: kriteria_1_userid
+                checkbox_name = f'kriteria_{i}_{user.id}'
+                
+                # ✨ PERBAIKAN: Cara paling aman mengecek checkbox HTML di Django
+                # Cukup cek eksistensi key di dalam request.POST
+                is_checked = checkbox_name in request.POST
+                
+                # Set atribut dinamis (akses_kriteria_1, dst) menjadi True/False
+                setattr(akses, f'akses_kriteria_{i}', is_checked)
+                
+            akses.save()
+        messages.success(request, 'Pengaturan akses berhasil disimpan!')
+        return redirect('halaman_pengaturan_akses')
+
+    # Untuk GET: pastikan setiap user sudah punya record AksesKriteriaUser
+    for user in users_biasa:
+        AksesKriteriaUser.objects.get_or_create(user=user)
+
+    # Re-query setelah get_or_create agar relasi ter-refresh
+    users_biasa = User.objects.filter(
+        is_staff=False, is_superuser=False
+    ).select_related('akses_kriteria').order_by('username')
+
+    KRITERIA_KETERANGAN = [
+        {'nomor': 1, 'label': 'Tata Pamong & Kerjasama'},
+        {'nomor': 2, 'label': 'Mahasiswa & Lulusan'},
+        {'nomor': 3, 'label': 'Penelitian & Sarpras'},
+        {'nomor': 4, 'label': 'Pengabdian Masyarakat'},
+        {'nomor': 5, 'label': 'Keuangan & Tata Kelola'},
+        {'nomor': 6, 'label': 'Visi Misi'},
+        {'nomor': 7, 'label': 'Pendidikan'},
+        {'nomor': 8, 'label': 'Penelitian Lanjut'},
+        {'nomor': 9, 'label': 'Luaran Capaian'},
+    ]
+
+    return render(request, 'lkps_app/admin_pengaturan_akses.html', {
+        'users': users_biasa,
+        'range_kriteria': range(1, JUMLAH_KRITERIA + 1),
+        'kriteria_keterangan': KRITERIA_KETERANGAN,
+    })

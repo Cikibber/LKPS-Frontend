@@ -2,10 +2,48 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
-
+from django.db import models
+# (Group tidak lagi dibutuhkan setelah refactor ke Feature Toggle)
 # ==========================================
 # MODEL MASTER (Tabel Referensi)
 # ==========================================
+class PengaturanFitur(models.Model):
+    KODE_FITUR_CHOICES = [
+        ('kriteria_1', 'Kriteria 1 - Visi, Misi, Tujuan, dan Strategi'),
+        ('kriteria_2', 'Kriteria 2 - Tata Pamong, Tata Kelola, dan Kerjasama'),
+        ('kriteria_3', 'Kriteria 3 - Mahasiswa'),
+        ('kriteria_4', 'Kriteria 4 - Sumber Daya Manusia'),
+        ('kriteria_5', 'Kriteria 5 - Keuangan, Sarana, dan Prasarana'),
+        ('kriteria_6', 'Kriteria 6 - Pendidikan'),
+        ('kriteria_7', 'Kriteria 7 - Penelitian'),
+        ('kriteria_8', 'Kriteria 8 - Pengabdian kepada Masyarakat'),
+        ('kriteria_9', 'Kriteria 9 - Luaran dan Capaian Tridharma'),
+    ]
+
+    kode_fitur = models.CharField(max_length=50, choices=KODE_FITUR_CHOICES, unique=True)
+    nama_fitur = models.CharField(max_length=100)
+
+    # Feature Toggle: ON/OFF langsung dari halaman list admin
+    bisa_dilihat_user = models.BooleanField(
+        default=True,
+        help_text="Jika OFF, halaman dikunci dan tidak bisa diakses oleh non-staff."
+    )
+    bisa_diedit_user = models.BooleanField(
+        default=False,
+        help_text="Jika ON, semua user (non-staff) bisa mengisi/mengedit data."
+    )
+    tampilkan_pengaturan_ke_user = models.BooleanField(
+        default=False,
+        help_text="Jika OFF, kolom/panel Pengaturan Akses akan disembunyikan dari user biasa."
+    )
+
+    def __str__(self):
+        return self.nama_fitur
+
+    class Meta:
+        verbose_name = "Pengaturan Fitur"
+        verbose_name_plural = "Pengaturan Fitur"
+
 
 class ProgramStudi(models.Model):
     nama_prodi = models.CharField(max_length=100, unique=True)
@@ -645,3 +683,35 @@ class Tabel_6_Misi(models.Model):
 
     def __str__(self):
         return "Data Visi Misi"
+
+
+# ==========================================
+# AKSES KONTROL: MATRIKS IZIN PER USER
+# ==========================================
+
+class AksesKriteriaUser(models.Model):
+    """
+    Menyimpan matriks izin akses tiap user biasa ke setiap Kriteria (1-9).
+    Dibuat secara otomatis saat user baru ditambahkan (via signal atau admin).
+    """
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='akses_kriteria'
+    )
+    akses_kriteria_1 = models.BooleanField(default=False)
+    akses_kriteria_2 = models.BooleanField(default=False)
+    akses_kriteria_3 = models.BooleanField(default=False)
+    akses_kriteria_4 = models.BooleanField(default=False)
+    akses_kriteria_5 = models.BooleanField(default=False)
+    akses_kriteria_6 = models.BooleanField(default=False)
+    akses_kriteria_7 = models.BooleanField(default=False)
+    akses_kriteria_8 = models.BooleanField(default=False)
+    akses_kriteria_9 = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Akses milik {self.user.username}"
+
+    class Meta:
+        verbose_name = "Akses Kriteria User"
+        verbose_name_plural = "Akses Kriteria User"

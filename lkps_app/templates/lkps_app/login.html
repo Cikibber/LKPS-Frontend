@@ -143,7 +143,7 @@
             <h3 class="fw-bold text-dark mb-1">Selamat Datang 👋</h3>
             <p class="text-muted mb-4">Silakan masuk menggunakan akun Program Studi Anda.</p>
 
-            <form action="{% url 'dashboard' %}">
+            <form action="" method="POST">
                 {% csrf_token %}
                 <div class="mb-4">
                     <label class="form-label fw-semibold text-dark small">Email / Username</label>
@@ -151,7 +151,7 @@
                         <span class="input-group-text bg-transparent border-end-0 text-muted ps-3">
                             <i class="fas fa-envelope"></i>
                         </span>
-                        <input type="text" class="form-control border-start-0 ps-0" placeholder=" admin.prodi@pradita.ac.id" required>
+                        <input type="text" name="username" class="form-control border-start-0 ps-0" placeholder=" admin.prodi@pradita.ac.id" required>
                     </div>
                 </div>
 
@@ -164,7 +164,7 @@
                         <span class="input-group-text bg-transparent border-end-0 text-muted ps-3">
                             <i class="fas fa-lock"></i>
                         </span>
-                        <input type="password" class="form-control border-start-0 ps-0" placeholder="   Insert Password" required>
+                        <input type="password" name="password" class="form-control border-start-0 ps-0" placeholder="   Insert Password" required>
                     </div>
                 </div>
 
