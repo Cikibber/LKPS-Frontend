@@ -21,7 +21,7 @@
                     <tbody id="tbody-2b2">
                         {% for row in data_cpl %}
                         <tr>
-                            <td><input type="text" class="form-control form-control-sm border-0 auto-save-input" name="kode_cpl[]" value="{{ row.kode_cpl }}"></td>
+                            <td><input type="text" class="form-control form-control-sm border-0 auto-save-input" name="kode_cpl[]" value="{{ row.kode_cpl }}" placeholder="Contoh: CPL-01"></td>
                             <td class="text-center"><input type="hidden" name="map_pl1[]" value="{% if row.pl1 %}1{% else %}0{% endif %}"><input type="checkbox" class="form-check-input auto-save-input" {% if row.pl1 %}checked{% endif %} onchange="this.previousElementSibling.value=this.checked?'1':'0';"></td>
                             <td class="text-center"><input type="hidden" name="map_pl2[]" value="{% if row.pl2 %}1{% else %}0{% endif %}"><input type="checkbox" class="form-check-input auto-save-input" {% if row.pl2 %}checked{% endif %} onchange="this.previousElementSibling.value=this.checked?'1':'0';"></td>
                             <td class="text-center"><input type="hidden" name="map_pl3[]" value="{% if row.pl3 %}1{% else %}0{% endif %}"><input type="checkbox" class="form-check-input auto-save-input" {% if row.pl3 %}checked{% endif %} onchange="this.previousElementSibling.value=this.checked?'1':'0';"></td>

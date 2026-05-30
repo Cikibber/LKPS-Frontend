@@ -39,9 +39,9 @@
                     <tbody id="tbody-4a1">
                         {% for sr in data_4a1 %}
                         <tr>
-                            <td><input type="text" class="form-control form-control-sm text-start auto-save-input" name="nama_prasarana_pkm[]" value="{{ sr.nama_prasarana }}"></td>
-                            <td><input type="number" class="form-control form-control-sm text-center auto-save-input" name="daya_tampung_pkm[]" value="{{ sr.daya_tampung }}"></td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center auto-save-input" name="luas_ruang_pkm[]" value="{{ sr.luas_ruang|stringformat:'f' }}"></td>
+                            <td><input type="text" class="form-control form-control-sm text-start auto-save-input" name="nama_prasarana_pkm[]" value="{{ sr.nama_prasarana }}" placeholder="Contoh: Laboratorium Komputer A / Ruang Kelas 401"></td>
+                            <td><input type="number" class="form-control form-control-sm text-center auto-save-input" name="daya_tampung_pkm[]" value="{{ sr.daya_tampung }}" placeholder="0"></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center auto-save-input" name="luas_ruang_pkm[]" value="{{ sr.luas_ruang|stringformat:'f' }}" placeholder="0,00 m2"></td>
                             <td>
                                 <select class="form-select form-select-sm auto-save-input" name="kepemilikan_pkm[]">
                                     <option value="M" {% if sr.kepemilikan == 'M' %}selected{% endif %}>Milik sendiri (M)</option>
@@ -55,15 +55,15 @@
                                     <option value="T" {% if sr.lisensi == 'T' %}selected{% endif %}>Tidak Berlisensi (T)</option>
                                 </select>
                             </td>
-                            <td><textarea class="form-control form-control-sm auto-save-input" name="perangkat_pkm[]" rows="1">{{ sr.perangkat|default:'' }}</textarea></td>
-                            <td><input type="url" class="form-control form-control-sm auto-save-input" name="link_bukti_prasarana_pkm[]" value="{{ sr.link_bukti|default:'' }}"></td>
+                            <td><textarea class="form-control form-control-sm auto-save-input" name="perangkat_pkm[]" rows="1" placeholder="Contoh: Server GPU, Bandwidth 100Mbps, Windows 11">{{ sr.perangkat|default:'' }}</textarea></td>
+                            <td><input type="url" class="form-control form-control-sm auto-save-input" name="link_bukti_prasarana_pkm[]" value="{{ sr.link_bukti|default:'' }}" placeholder="https://link-bukti.ac.id/..."></td>
                             <td><button type="button" class="btn btn-sm btn-outline-danger btn-hapus"><i class="fas fa-trash"></i></button></td>
                         </tr>
                         {% empty %}
                         <tr>
                             <td><input type="text" class="form-control form-control-sm text-start auto-save-input" name="nama_prasarana_pkm[]" placeholder="Contoh: Bengkel IoT"></td>
-                            <td><input type="number" class="form-control form-control-sm text-center auto-save-input" name="daya_tampung_pkm[]" value="0"></td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center auto-save-input" name="luas_ruang_pkm[]" value="0"></td>
+                            <td><input type="number" class="form-control form-control-sm text-center auto-save-input" name="daya_tampung_pkm[]" value="0" placeholder="0"></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center auto-save-input" name="luas_ruang_pkm[]" value="0" placeholder="0,00 m2"></td>
                             <td><select class="form-select form-select-sm auto-save-input" name="kepemilikan_pkm[]"><option value="M">Milik sendiri (M)</option><option value="W">Sewa (W)</option></select></td>
                             <td><select class="form-select form-select-sm auto-save-input" name="lisensi_pkm[]"><option value="L">Berlisensi (L)</option><option value="P">Public Domain (P)</option><option value="T">Tidak Berlisensi (T)</option></select></td>
                             <td><textarea class="form-control form-control-sm auto-save-input" name="perangkat_pkm[]" rows="1" placeholder="Hardware/Software..."></textarea></td>
@@ -112,10 +112,10 @@
                         {% for pk in data_4a2 %}
                         <tr class="baris-pkm">
                             <td class="baris-nomor">{{ forloop.counter }}</td>
-                            <td><input type="text" class="form-control form-control-sm auto-save-input" name="nama_dtpr_pkm[]" value="{{ pk.nama_dtpr }}"></td>
-                            <td><textarea class="form-control form-control-sm auto-save-input" name="judul_kegiatan_pkm[]" rows="1">{{ pk.judul }}</textarea></td>
-                            <td><input type="number" class="form-control form-control-sm text-center auto-save-input" name="jml_mhs_pkm[]" value="{{ pk.jml_mhs }}"></td>
-                            <td><input type="text" class="form-control form-control-sm auto-save-input" name="jenis_hibah_pkm[]" value="{{ pk.jenis_hibah }}"></td>
+                            <td><input type="text" class="form-control form-control-sm auto-save-input" name="nama_dtpr_pkm[]" value="{{ pk.nama_dtpr }}" placeholder="Contoh: Dr. Budi Santoso, M.T."></td>
+                            <td><textarea class="form-control form-control-sm auto-save-input" name="judul_kegiatan_pkm[]" rows="1" placeholder="Contoh: Implementasi IoT untuk Pemantauan Pertanian">{{ pk.judul }}</textarea></td>
+                            <td><input type="number" class="form-control form-control-sm text-center auto-save-input" name="jml_mhs_pkm[]" value="{{ pk.jml_mhs }}" placeholder="0"></td>
+                            <td><input type="text" class="form-control form-control-sm auto-save-input" name="jenis_hibah_pkm[]" value="{{ pk.jenis_hibah }}" placeholder="Masukkan data..."></td>
                             <td>
                                 <select class="form-select form-select-sm auto-save-input" name="sumber_dana_pkm[]">
                                     <option value="L" {% if pk.sumber_lni == 'L' %}selected{% endif %}>L</option>
@@ -123,26 +123,26 @@
                                     <option value="I" {% if pk.sumber_lni == 'I' %}selected{% endif %}>I</option>
                                 </select>
                             </td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center auto-save-input" name="durasi_pkm[]" value="{{ pk.durasi|stringformat:'f' }}"></td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-pkm auto-save-input" name="dana_pkm_ts2[]" value="{{ pk.dana_ts2|stringformat:'f' }}"></td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-pkm auto-save-input" name="dana_pkm_ts1[]" value="{{ pk.dana_ts1|stringformat:'f' }}"></td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-pkm auto-save-input" name="dana_pkm_ts[]" value="{{ pk.dana_ts|stringformat:'f' }}"></td>
-                            <td><input type="url" class="form-control form-control-sm auto-save-input" name="link_bukti_dana_pkm[]" value="{{ pk.link_bukti|default:'' }}"></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center auto-save-input" name="durasi_pkm[]" value="{{ pk.durasi|stringformat:'f' }}" placeholder="Masukkan data..."></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-pkm auto-save-input" name="dana_pkm_ts2[]" value="{{ pk.dana_ts2|stringformat:'f' }}" placeholder="0"></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-pkm auto-save-input" name="dana_pkm_ts1[]" value="{{ pk.dana_ts1|stringformat:'f' }}" placeholder="0"></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-pkm auto-save-input" name="dana_pkm_ts[]" value="{{ pk.dana_ts|stringformat:'f' }}" placeholder="0"></td>
+                            <td><input type="url" class="form-control form-control-sm auto-save-input" name="link_bukti_dana_pkm[]" value="{{ pk.link_bukti|default:'' }}" placeholder="https://link-bukti.ac.id/..."></td>
                             <td><button type="button" class="btn btn-sm btn-outline-danger btn-hapus"><i class="fas fa-trash"></i></button></td>
                         </tr>
                         {% empty %}
                         <tr class="baris-pkm">
                             <td class="baris-nomor">1</td>
-                            <td><input type="text" class="form-control form-control-sm auto-save-input" name="nama_dtpr_pkm[]"></td>
-                            <td><textarea class="form-control form-control-sm auto-save-input" name="judul_kegiatan_pkm[]" rows="1"></textarea></td>
-                            <td><input type="number" class="form-control form-control-sm text-center auto-save-input" name="jml_mhs_pkm[]" value="0"></td>
-                            <td><input type="text" class="form-control form-control-sm auto-save-input" name="jenis_hibah_pkm[]"></td>
+                            <td><input type="text" class="form-control form-control-sm auto-save-input" name="nama_dtpr_pkm[]" placeholder="Contoh: Dr. Budi Santoso, M.T."></td>
+                            <td><textarea class="form-control form-control-sm auto-save-input" name="judul_kegiatan_pkm[]" rows="1" placeholder="Contoh: Implementasi IoT untuk Pemantauan Pertanian"></textarea></td>
+                            <td><input type="number" class="form-control form-control-sm text-center auto-save-input" name="jml_mhs_pkm[]" value="0" placeholder="0"></td>
+                            <td><input type="text" class="form-control form-control-sm auto-save-input" name="jenis_hibah_pkm[]" placeholder="Masukkan data..."></td>
                             <td><select class="form-select form-select-sm auto-save-input" name="sumber_dana_pkm[]"><option value="L">L</option><option value="N">N</option><option value="I">I</option></select></td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center auto-save-input" name="durasi_pkm[]" value="1"></td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-pkm auto-save-input" name="dana_pkm_ts2[]" value="0"></td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-pkm auto-save-input" name="dana_pkm_ts1[]" value="0"></td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-pkm auto-save-input" name="dana_pkm_ts[]" value="0"></td>
-                            <td><input type="url" class="form-control form-control-sm auto-save-input" name="link_bukti_dana_pkm[]"></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center auto-save-input" name="durasi_pkm[]" value="1" placeholder="Masukkan data..."></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-pkm auto-save-input" name="dana_pkm_ts2[]" value="0" placeholder="0"></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-pkm auto-save-input" name="dana_pkm_ts1[]" value="0" placeholder="0"></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-pkm auto-save-input" name="dana_pkm_ts[]" value="0" placeholder="0"></td>
+                            <td><input type="url" class="form-control form-control-sm auto-save-input" name="link_bukti_dana_pkm[]" placeholder="https://link-bukti.ac.id/..."></td>
                             <td><button type="button" class="btn btn-sm btn-outline-danger btn-hapus" disabled><i class="fas fa-trash"></i></button></td>
                         </tr>
                         {% endfor %}
@@ -159,7 +159,7 @@
                         </tr>
                         <tr>
                             <td colspan="7" class="text-end text-success">Jumlah Jenis Hibah PKM</td>
-                            <td colspan="5" class="text-start ps-4 text-success"><input type="number" class="form-control form-control-sm d-inline-block w-25 text-center auto-save-input" name="total_jenis_hibah_pkm" value="{{ summary.total_jenis_hibah }}"></td>
+                            <td colspan="5" class="text-start ps-4 text-success"><input type="number" class="form-control form-control-sm d-inline-block w-25 text-center auto-save-input" name="total_jenis_hibah_pkm" value="{{ summary.total_jenis_hibah }}" placeholder="Masukkan data..."></td>
                         </tr>
                     </tfoot>
                 </table>
@@ -194,8 +194,8 @@
                                 {% for kr in data_4c1 %}
                                 <tr class="baris-kerja-pkm">
                                     <td class="baris-nomor">{{ forloop.counter }}</td>
-                                    <td><textarea class="form-control form-control-sm auto-save-input" name="judul_kerjasama_pkm[]" rows="1">{{ kr.judul }}</textarea></td>
-                                    <td><input type="text" class="form-control form-control-sm auto-save-input" name="mitra_kerjasama_pkm[]" value="{{ kr.mitra }}"></td>
+                                    <td><textarea class="form-control form-control-sm auto-save-input" name="judul_kerjasama_pkm[]" rows="1" placeholder="Contoh: Implementasi IoT untuk Pemantauan Pertanian">{{ kr.judul }}</textarea></td>
+                                    <td><input type="text" class="form-control form-control-sm auto-save-input" name="mitra_kerjasama_pkm[]" value="{{ kr.mitra }}" placeholder="Contoh: PT. Google Indonesia / Pemkot Bekasi"></td>
                                     <td>
                                         <select class="form-select form-select-sm auto-save-input" name="sumber_kerja_pkm[]">
                                             <option value="L" {% if kr.sumber_lni == 'L' %}selected{% endif %}>L</option>
@@ -203,24 +203,24 @@
                                             <option value="I" {% if kr.sumber_lni == 'I' %}selected{% endif %}>I</option>
                                         </select>
                                     </td>
-                                    <td><input type="number" step="0.1" class="form-control form-control-sm text-center auto-save-input" name="durasi_kerja_pkm[]" value="{{ kr.durasi|stringformat:'f' }}"></td>
-                                    <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-kpkm auto-save-input" name="dana_kpkm_ts2[]" value="{{ kr.dana_ts2|stringformat:'f' }}"></td>
-                                    <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-kpkm auto-save-input" name="dana_kpkm_ts1[]" value="{{ kr.dana_ts1|stringformat:'f' }}"></td>
-                                    <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-kpkm auto-save-input" name="dana_kpkm_ts[]" value="{{ kr.dana_ts|stringformat:'f' }}"></td>
-                                    <td><input type="url" class="form-control form-control-sm auto-save-input" name="link_bukti_kerja_pkm[]" value="{{ kr.link_bukti|default:'' }}"></td>
+                                    <td><input type="number" step="0.1" class="form-control form-control-sm text-center auto-save-input" name="durasi_kerja_pkm[]" value="{{ kr.durasi|stringformat:'f' }}" placeholder="Masukkan data..."></td>
+                                    <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-kpkm auto-save-input" name="dana_kpkm_ts2[]" value="{{ kr.dana_ts2|stringformat:'f' }}" placeholder="0"></td>
+                                    <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-kpkm auto-save-input" name="dana_kpkm_ts1[]" value="{{ kr.dana_ts1|stringformat:'f' }}" placeholder="0"></td>
+                                    <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-kpkm auto-save-input" name="dana_kpkm_ts[]" value="{{ kr.dana_ts|stringformat:'f' }}" placeholder="0"></td>
+                                    <td><input type="url" class="form-control form-control-sm auto-save-input" name="link_bukti_kerja_pkm[]" value="{{ kr.link_bukti|default:'' }}" placeholder="https://link-bukti.ac.id/..."></td>
                                     <td><button type="button" class="btn btn-sm btn-outline-danger btn-hapus"><i class="fas fa-trash"></i></button></td>
                                 </tr>
                                 {% empty %}
                                 <tr class="baris-kerja-pkm">
                                     <td class="baris-nomor">1</td>
-                                    <td><textarea class="form-control form-control-sm auto-save-input" name="judul_kerjasama_pkm[]" rows="1"></textarea></td>
-                                    <td><input type="text" class="form-control form-control-sm auto-save-input" name="mitra_kerjasama_pkm[]"></td>
+                                    <td><textarea class="form-control form-control-sm auto-save-input" name="judul_kerjasama_pkm[]" rows="1" placeholder="Contoh: Implementasi IoT untuk Pemantauan Pertanian"></textarea></td>
+                                    <td><input type="text" class="form-control form-control-sm auto-save-input" name="mitra_kerjasama_pkm[]" placeholder="Contoh: PT. Google Indonesia / Pemkot Bekasi"></td>
                                     <td><select class="form-select form-select-sm auto-save-input" name="sumber_kerja_pkm[]"><option value="L">L</option><option value="N">N</option><option value="I">I</option></select></td>
-                                    <td><input type="number" step="0.1" class="form-control form-control-sm text-center auto-save-input" name="durasi_kerja_pkm[]" value="1"></td>
-                                    <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-kpkm auto-save-input" name="dana_kpkm_ts2[]" value="0"></td>
-                                    <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-kpkm auto-save-input" name="dana_kpkm_ts1[]" value="0"></td>
-                                    <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-kpkm auto-save-input" name="dana_kpkm_ts[]" value="0"></td>
-                                    <td><input type="url" class="form-control form-control-sm auto-save-input" name="link_bukti_kerja_pkm[]"></td>
+                                    <td><input type="number" step="0.1" class="form-control form-control-sm text-center auto-save-input" name="durasi_kerja_pkm[]" value="1" placeholder="Masukkan data..."></td>
+                                    <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-kpkm auto-save-input" name="dana_kpkm_ts2[]" value="0" placeholder="0"></td>
+                                    <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-kpkm auto-save-input" name="dana_kpkm_ts1[]" value="0" placeholder="0"></td>
+                                    <td><input type="number" step="0.1" class="form-control form-control-sm text-center val-dana-kpkm auto-save-input" name="dana_kpkm_ts[]" value="0" placeholder="0"></td>
+                                    <td><input type="url" class="form-control form-control-sm auto-save-input" name="link_bukti_kerja_pkm[]" placeholder="https://link-bukti.ac.id/..."></td>
                                     <td><button type="button" class="btn btn-sm btn-outline-danger btn-hapus" disabled><i class="fas fa-trash"></i></button></td>
                                 </tr>
                                 {% endfor %}
@@ -269,8 +269,8 @@
                                 {% for ds in data_4c2 %}
                                 <tr class="baris-diseminasi">
                                     <td class="baris-nomor">{{ forloop.counter }}</td>
-                                    <td><input type="text" class="form-control form-control-sm auto-save-input" name="nama_dtpr_disem[]" value="{{ ds.nama_dtpr }}"></td>
-                                    <td><textarea class="form-control form-control-sm auto-save-input" name="judul_disem[]" rows="1">{{ ds.judul }}</textarea></td>
+                                    <td><input type="text" class="form-control form-control-sm auto-save-input" name="nama_dtpr_disem[]" value="{{ ds.nama_dtpr }}" placeholder="Contoh: Dr. Budi Santoso, M.T."></td>
+                                    <td><textarea class="form-control form-control-sm auto-save-input" name="judul_disem[]" rows="1" placeholder="Contoh: Implementasi IoT untuk Pemantauan Pertanian">{{ ds.judul }}</textarea></td>
                                     <td>
                                         <select class="form-select form-select-sm sel-lni-disem auto-save-input" name="lni_disem[]">
                                             <option value="L" {% if ds.lni == 'L' %}selected{% endif %}>L</option>
@@ -281,26 +281,26 @@
                                     <td><input type="hidden" name="disem_ts2[]" value="{% if ds.ts2 %}1{% else %}0{% endif %}"><input class="form-check-input auto-save-input" type="checkbox" onchange="this.previousElementSibling.value = this.checked ? '1' : '0'" {% if ds.ts2 %}checked{% endif %}></td>
                                     <td><input type="hidden" name="disem_ts1[]" value="{% if ds.ts1 %}1{% else %}0{% endif %}"><input class="form-check-input auto-save-input" type="checkbox" onchange="this.previousElementSibling.value = this.checked ? '1' : '0'" {% if ds.ts1 %}checked{% endif %}></td>
                                     <td><input type="hidden" name="disem_ts[]" value="{% if ds.ts %}1{% else %}0{% endif %}"><input class="form-check-input auto-save-input" type="checkbox" onchange="this.previousElementSibling.value = this.checked ? '1' : '0'" {% if ds.ts %}checked{% endif %}></td>
-                                    <td><input type="url" class="form-control form-control-sm auto-save-input" name="link_bukti_disem[]" value="{{ ds.link_bukti|default:'' }}"></td>
+                                    <td><input type="url" class="form-control form-control-sm auto-save-input" name="link_bukti_disem[]" value="{{ ds.link_bukti|default:'' }}" placeholder="https://link-bukti.ac.id/..."></td>
                                     <td><button type="button" class="btn btn-sm btn-outline-danger btn-hapus"><i class="fas fa-trash"></i></button></td>
                                 </tr>
                                 {% empty %}
                                 <tr class="baris-diseminasi">
                                     <td class="baris-nomor">1</td>
-                                    <td><input type="text" class="form-control form-control-sm auto-save-input" name="nama_dtpr_disem[]"></td>
-                                    <td><textarea class="form-control form-control-sm auto-save-input" name="judul_disem[]" rows="1"></textarea></td>
+                                    <td><input type="text" class="form-control form-control-sm auto-save-input" name="nama_dtpr_disem[]" placeholder="Contoh: Dr. Budi Santoso, M.T."></td>
+                                    <td><textarea class="form-control form-control-sm auto-save-input" name="judul_disem[]" rows="1" placeholder="Contoh: Implementasi IoT untuk Pemantauan Pertanian"></textarea></td>
                                     <td><select class="form-select form-select-sm sel-lni-disem auto-save-input" name="lni_disem[]"><option value="L">L</option><option value="N">N</option><option value="I">I</option></select></td>
                                     <td><input type="hidden" name="disem_ts2[]" value="0"><input class="form-check-input auto-save-input" type="checkbox" onchange="this.previousElementSibling.value = this.checked ? '1' : '0'"></td>
                                     <td><input type="hidden" name="disem_ts1[]" value="0"><input class="form-check-input auto-save-input" type="checkbox" onchange="this.previousElementSibling.value = this.checked ? '1' : '0'"></td>
                                     <td><input type="hidden" name="disem_ts[]" value="0"><input class="form-check-input auto-save-input" type="checkbox" onchange="this.previousElementSibling.value = this.checked ? '1' : '0'"></td>
-                                    <td><input type="url" class="form-control form-control-sm auto-save-input" name="link_bukti_disem[]"></td>
+                                    <td><input type="url" class="form-control form-control-sm auto-save-input" name="link_bukti_disem[]" placeholder="https://link-bukti.ac.id/..."></td>
                                     <td><button type="button" class="btn btn-sm btn-outline-danger btn-hapus" disabled><i class="fas fa-trash"></i></button></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                             <tfoot class="table-light fw-bold text-start">
                                 <tr><td colspan="4" class="text-end">Jumlah Judul PkM</td><td colspan="5" class="ps-3" id="jml-judul-pkm">1</td></tr>
-                                <tr><td colspan="4" class="text-end">Jumlah Diseminasi Hasil PkM</td><td colspan="5" class="ps-3"><input type="number" class="form-control form-control-sm d-inline-block w-25 auto-save-input" name="jml_disem_hasil" value="{{ summary.jml_disem_hasil }}"></td></tr>
+                                <tr><td colspan="4" class="text-end">Jumlah Diseminasi Hasil PkM</td><td colspan="5" class="ps-3"><input type="number" class="form-control form-control-sm d-inline-block w-25 auto-save-input" name="jml_disem_hasil" value="{{ summary.jml_disem_hasil }}" placeholder="0"></td></tr>
                                 <tr><td colspan="4" class="text-end text-success">Jumlah PkM Lokal</td><td colspan="5" class="ps-3 text-success" id="jml-lokal">1</td></tr>
                                 <tr><td colspan="4" class="text-end text-primary">Jumlah PkM Nasional</td><td colspan="5" class="ps-3 text-primary" id="jml-nasional">0</td></tr>
                                 <tr><td colspan="4" class="text-end text-danger">Jumlah PkM Internasional</td><td colspan="5" class="ps-3 text-danger" id="jml-internasional">0</td></tr>
@@ -336,25 +336,25 @@
                                 {% for hk in data_4c3 %}
                                 <tr class="baris-hki-pkm">
                                     <td class="baris-nomor">{{ forloop.counter }}</td>
-                                    <td><textarea class="form-control form-control-sm auto-save-input" name="judul_hki_pkm[]" rows="1">{{ hk.judul }}</textarea></td>
-                                    <td><input type="text" class="form-control form-control-sm auto-save-input" name="jenis_hki_pkm[]" value="{{ hk.jenis_hki }}"></td>
-                                    <td><input type="text" class="form-control form-control-sm auto-save-input" name="nama_dtpr_hki_pkm[]" value="{{ hk.nama_dtpr }}"></td>
+                                    <td><textarea class="form-control form-control-sm auto-save-input" name="judul_hki_pkm[]" rows="1" placeholder="Contoh: Implementasi IoT untuk Pemantauan Pertanian">{{ hk.judul }}</textarea></td>
+                                    <td><input type="text" class="form-control form-control-sm auto-save-input" name="jenis_hki_pkm[]" value="{{ hk.jenis_hki }}" placeholder="Contoh: Paten Sederhana / Hak Cipta"></td>
+                                    <td><input type="text" class="form-control form-control-sm auto-save-input" name="nama_dtpr_hki_pkm[]" value="{{ hk.nama_dtpr }}" placeholder="Contoh: Dr. Budi Santoso, M.T."></td>
                                     <td><input type="hidden" name="hkipkm_ts2[]" value="{% if hk.ts2 %}1{% else %}0{% endif %}"><input class="form-check-input auto-save-input" type="checkbox" onchange="this.previousElementSibling.value = this.checked ? '1' : '0'" {% if hk.ts2 %}checked{% endif %}></td>
                                     <td><input type="hidden" name="hkipkm_ts1[]" value="{% if hk.ts1 %}1{% else %}0{% endif %}"><input class="form-check-input auto-save-input" type="checkbox" onchange="this.previousElementSibling.value = this.checked ? '1' : '0'" {% if hk.ts1 %}checked{% endif %}></td>
                                     <td><input type="hidden" name="hkipkm_ts[]" value="{% if hk.ts %}1{% else %}0{% endif %}"><input class="form-check-input auto-save-input" type="checkbox" onchange="this.previousElementSibling.value = this.checked ? '1' : '0'" {% if hk.ts %}checked{% endif %}></td>
-                                    <td><input type="url" class="form-control form-control-sm auto-save-input" name="link_bukti_hki_pkm[]" value="{{ hk.link_bukti|default:'' }}"></td>
+                                    <td><input type="url" class="form-control form-control-sm auto-save-input" name="link_bukti_hki_pkm[]" value="{{ hk.link_bukti|default:'' }}" placeholder="https://link-bukti.ac.id/..."></td>
                                     <td><button type="button" class="btn btn-sm btn-outline-danger btn-hapus"><i class="fas fa-trash"></i></button></td>
                                 </tr>
                                 {% empty %}
                                 <tr class="baris-hki-pkm">
                                     <td class="baris-nomor">1</td>
-                                    <td><textarea class="form-control form-control-sm auto-save-input" name="judul_hki_pkm[]" rows="1"></textarea></td>
-                                    <td><input type="text" class="form-control form-control-sm auto-save-input" name="jenis_hki_pkm[]"></td>
-                                    <td><input type="text" class="form-control form-control-sm auto-save-input" name="nama_dtpr_hki_pkm[]"></td>
+                                    <td><textarea class="form-control form-control-sm auto-save-input" name="judul_hki_pkm[]" rows="1" placeholder="Contoh: Implementasi IoT untuk Pemantauan Pertanian"></textarea></td>
+                                    <td><input type="text" class="form-control form-control-sm auto-save-input" name="jenis_hki_pkm[]" placeholder="Contoh: Paten Sederhana / Hak Cipta"></td>
+                                    <td><input type="text" class="form-control form-control-sm auto-save-input" name="nama_dtpr_hki_pkm[]" placeholder="Contoh: Dr. Budi Santoso, M.T."></td>
                                     <td><input type="hidden" name="hkipkm_ts2[]" value="0"><input class="form-check-input auto-save-input" type="checkbox" onchange="this.previousElementSibling.value = this.checked ? '1' : '0'"></td>
                                     <td><input type="hidden" name="hkipkm_ts1[]" value="0"><input class="form-check-input auto-save-input" type="checkbox" onchange="this.previousElementSibling.value = this.checked ? '1' : '0'"></td>
                                     <td><input type="hidden" name="hkipkm_ts[]" value="0"><input class="form-check-input auto-save-input" type="checkbox" onchange="this.previousElementSibling.value = this.checked ? '1' : '0'"></td>
-                                    <td><input type="url" class="form-control form-control-sm auto-save-input" name="link_bukti_hki_pkm[]"></td>
+                                    <td><input type="url" class="form-control form-control-sm auto-save-input" name="link_bukti_hki_pkm[]" placeholder="https://link-bukti.ac.id/..."></td>
                                     <td><button type="button" class="btn btn-sm btn-outline-danger btn-hapus" disabled><i class="fas fa-trash"></i></button></td>
                                 </tr>
                                 {% endfor %}

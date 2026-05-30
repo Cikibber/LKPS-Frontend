@@ -47,15 +47,15 @@
                         {% for tendik in data %}
                         <tr class="baris-tendik">
                             <td class="baris-nomor">{{ forloop.counter }}</td>
-                            <td><input type="text" class="form-control form-control-sm text-start auto-save-input" name="jenis_tendik[]" value="{{ tendik.jenis_tenaga }}"></td>
-                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_s3[]" value="{{ tendik.s3 }}" min="0"></td>
-                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_s2[]" value="{{ tendik.s2 }}" min="0"></td>
-                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_s1[]" value="{{ tendik.s1 }}" min="0"></td>
-                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_d4[]" value="0" min="0"></td>
-                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_d3[]" value="{{ tendik.d3 }}" min="0"></td>
-                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_d2[]" value="{{ tendik.d2_d1 }}" min="0"></td>
-                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_d1[]" value="0" min="0"></td>
-                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_sma[]" value="{{ tendik.sma_smk }}" min="0"></td>
+                            <td><input type="text" class="form-control form-control-sm text-start auto-save-input" name="jenis_tendik[]" value="{{ tendik.jenis_tenaga }}" placeholder="Masukkan data..."></td>
+                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_s3[]" value="{{ tendik.s3 }}" min="0" placeholder="0"></td>
+                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_s2[]" value="{{ tendik.s2 }}" min="0" placeholder="0"></td>
+                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_s1[]" value="{{ tendik.s1 }}" min="0" placeholder="0"></td>
+                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_d4[]" value="0" min="0" placeholder="0"></td>
+                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_d3[]" value="{{ tendik.d3 }}" min="0" placeholder="0"></td>
+                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_d2[]" value="{{ tendik.d2_d1 }}" min="0" placeholder="0"></td>
+                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_d1[]" value="0" min="0" placeholder="0"></td>
+                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_sma[]" value="{{ tendik.sma_smk }}" min="0" placeholder="0"></td>
                             <td><input type="text" class="form-control form-control-sm text-center bg-light total-baris fw-bold text-primary" readonly value="0"></td>
                             <td><input type="text" class="form-control form-control-sm auto-save-input" name="unit_kerja[]" value="{{ tendik.unit_kerja|default:'' }}" placeholder="Nama Unit"></td>
                             <td><button type="button" class="btn btn-sm btn-outline-danger btn-hapus-baris"><i class="fas fa-trash"></i></button></td>
@@ -63,15 +63,15 @@
                         {% empty %}
                         <tr class="baris-tendik">
                             <td class="baris-nomor">1</td>
-                            <td><input type="text" class="form-control form-control-sm text-start auto-save-input" name="jenis_tendik[]" value="Pustakawan *)"></td>
-                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_s3[]" value="0" min="0"></td>
-                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_s2[]" value="0" min="0"></td>
-                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_s1[]" value="0" min="0"></td>
-                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_d4[]" value="0" min="0"></td>
-                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_d3[]" value="0" min="0"></td>
-                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_d2[]" value="0" min="0"></td>
-                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_d1[]" value="0" min="0"></td>
-                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_sma[]" value="0" min="0"></td>
+                            <td><input type="text" class="form-control form-control-sm text-start auto-save-input" name="jenis_tendik[]" value="Pustakawan *)" placeholder="Masukkan data..."></td>
+                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_s3[]" value="0" min="0" placeholder="0"></td>
+                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_s2[]" value="0" min="0" placeholder="0"></td>
+                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_s1[]" value="0" min="0" placeholder="0"></td>
+                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_d4[]" value="0" min="0" placeholder="0"></td>
+                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_d3[]" value="0" min="0" placeholder="0"></td>
+                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_d2[]" value="0" min="0" placeholder="0"></td>
+                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_d1[]" value="0" min="0" placeholder="0"></td>
+                            <td><input type="number" class="form-control form-control-sm text-center input-pendidikan auto-save-input" name="jml_sma[]" value="0" min="0" placeholder="0"></td>
                             <td><input type="text" class="form-control form-control-sm text-center bg-light total-baris fw-bold text-primary" readonly value="0"></td>
                             <td><input type="text" class="form-control form-control-sm auto-save-input" name="unit_kerja[]" placeholder="Nama Unit"></td>
                             <td><button type="button" class="btn btn-sm btn-outline-danger btn-hapus-baris" disabled><i class="fas fa-trash"></i></button></td>

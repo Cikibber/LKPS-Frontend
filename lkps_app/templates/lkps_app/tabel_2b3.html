@@ -22,20 +22,20 @@
                     <tbody id="tbody-2b3">
                         {% for row in data_pemenuhan %}
                         <tr>
-                            <td><input type="text" class="form-control form-control-sm border-0 auto-save-input" name="pem_cpl[]" value="{{ row.cpl }}"></td>
-                            <td><input type="text" class="form-control form-control-sm border-0 auto-save-input" name="pem_cpmk[]" value="{{ row.cpmk }}"></td>
-                            <td><input type="text" class="form-control form-control-sm border-0 auto-save-input text-center" name="pem_smt1[]" value="{{ row.smt1 }}"></td>
-                            <td><input type="text" class="form-control form-control-sm border-0 auto-save-input text-center" name="pem_smt2[]" value="{{ row.smt2 }}"></td>
-                            <td><input type="text" class="form-control form-control-sm border-0 auto-save-input text-center" name="pem_smt3[]" value="{{ row.smt3 }}"></td>
+                            <td><input type="text" class="form-control form-control-sm border-0 auto-save-input" name="pem_cpl[]" value="{{ row.cpl }}" placeholder="Contoh: CPL-01 (Sikap)"></td>
+                            <td><input type="text" class="form-control form-control-sm border-0 auto-save-input" name="pem_cpmk[]" value="{{ row.cpmk }}" placeholder="Contoh: CPMK-01 (Mampu menganalisis...)"></td>
+                            <td><input type="text" class="form-control form-control-sm border-0 auto-save-input text-center" name="pem_smt1[]" value="{{ row.smt1 }}" placeholder="Contoh: MK01 (3 SKS)"></td>
+                            <td><input type="text" class="form-control form-control-sm border-0 auto-save-input text-center" name="pem_smt2[]" value="{{ row.smt2 }}" placeholder="Contoh: MK01 (3 SKS)"></td>
+                            <td><input type="text" class="form-control form-control-sm border-0 auto-save-input text-center" name="pem_smt3[]" value="{{ row.smt3 }}" placeholder="Contoh: MK01 (3 SKS)"></td>
                             <td><button type="button" class="btn btn-sm btn-outline-danger btn-hapus-baris"><i class="fas fa-trash"></i></button></td>
                         </tr>
                         {% empty %}
                         <tr>
                             <td><input type="text" class="form-control form-control-sm border-0 auto-save-input" name="pem_cpl[]" placeholder="CPL"></td>
                             <td><input type="text" class="form-control form-control-sm border-0 auto-save-input" name="pem_cpmk[]" placeholder="CPMK"></td>
-                            <td><input type="text" class="form-control form-control-sm border-0 auto-save-input text-center" name="pem_smt1[]"></td>
-                            <td><input type="text" class="form-control form-control-sm border-0 auto-save-input text-center" name="pem_smt2[]"></td>
-                            <td><input type="text" class="form-control form-control-sm border-0 auto-save-input text-center" name="pem_smt3[]"></td>
+                            <td><input type="text" class="form-control form-control-sm border-0 auto-save-input text-center" name="pem_smt1[]" placeholder="Contoh: MK01 (3 SKS)"></td>
+                            <td><input type="text" class="form-control form-control-sm border-0 auto-save-input text-center" name="pem_smt2[]" placeholder="Contoh: MK01 (3 SKS)"></td>
+                            <td><input type="text" class="form-control form-control-sm border-0 auto-save-input text-center" name="pem_smt3[]" placeholder="Contoh: MK01 (3 SKS)"></td>
                             <td><button type="button" class="btn btn-sm btn-outline-danger btn-hapus-baris" disabled><i class="fas fa-trash"></i></button></td>
                         </tr>
                         {% endfor %}

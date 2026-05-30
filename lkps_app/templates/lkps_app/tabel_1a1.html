@@ -36,12 +36,12 @@
                     <tbody id="tbody-dinamis">
                         {% for row in data %}
                         <tr>
-                            <td><input type="text" class="form-control form-control-sm auto-save-input" name="unit_kerja[]" value="{{ row.unit_kerja }}"></td>
-                            <td><input type="text" class="form-control form-control-sm auto-save-input" name="nama_ketua[]" value="{{ row.nama_ketua }}"></td>
-                            <td><input type="text" class="form-control form-control-sm text-center auto-save-input" name="periode_jabatan[]" value="{{ row.periode_jabatan }}"></td>
-                            <td><input type="text" class="form-control form-control-sm auto-save-input" name="pendidikan_terakhir[]" value="{{ row.pendidikan_terakhir }}"></td>
-                            <td><input type="text" class="form-control form-control-sm auto-save-input" name="jabatan_fungsional[]" value="{{ row.jabatan_fungsional }}"></td>
-                            <td><textarea class="form-control form-control-sm auto-save-input" name="tupoksi[]" rows="2">{{ row.tupoksi }}</textarea></td>
+                            <td><input type="text" class="form-control form-control-sm auto-save-input" name="unit_kerja[]" value="{{ row.unit_kerja }}" placeholder="Contoh: Fakultas Teknologi / Admisi"></td>
+                            <td><input type="text" class="form-control form-control-sm auto-save-input" name="nama_ketua[]" value="{{ row.nama_ketua }}" placeholder="Contoh: Dr. Budi Santoso, M.T."></td>
+                            <td><input type="text" class="form-control form-control-sm text-center auto-save-input" name="periode_jabatan[]" value="{{ row.periode_jabatan }}" placeholder="Contoh: 2022-2026"></td>
+                            <td><input type="text" class="form-control form-control-sm auto-save-input" name="pendidikan_terakhir[]" value="{{ row.pendidikan_terakhir }}" placeholder="Contoh: S3 / S2"></td>
+                            <td><input type="text" class="form-control form-control-sm auto-save-input" name="jabatan_fungsional[]" value="{{ row.jabatan_fungsional }}" placeholder="Contoh: Lektor Kepala"></td>
+                            <td><textarea class="form-control form-control-sm auto-save-input" name="tupoksi[]" rows="2" placeholder="Tugas Pokok dan Fungsi...">{{ row.tupoksi }}</textarea></td>
                             <td>
                                 <button type="button" class="btn btn-sm btn-outline-danger btn-hapus-baris"><i class="fas fa-trash"></i></button>
                             </td>

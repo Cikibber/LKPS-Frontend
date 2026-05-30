@@ -21,11 +21,11 @@
                     <tbody id="tbody-2a2">
                         {% for row in data_2a2 %}
                         <tr>
-                            <td><input type="text" class="form-control form-control-sm border-0 bg-transparent auto-save-input" name="asal_kategori[]" value="{{ row.asal_mahasiswa }}" readonly></td>
-                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="asal_ts2[]" value="{{ row.ts_2 }}"></td>
-                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="asal_ts1[]" value="{{ row.ts_1 }}"></td>
-                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="asal_ts[]" value="{{ row.ts }}"></td>
-                            <td><input type="text" class="form-control form-control-sm border-0 bg-transparent auto-save-input" name="link_asal[]" value="{{ row.link_bukti|default_if_none:'' }}"></td>
+                            <td><input type="text" class="form-control form-control-sm border-0 bg-transparent auto-save-input" name="asal_kategori[]" value="{{ row.asal_mahasiswa }}" readonly placeholder="Masukkan data..."></td>
+                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="asal_ts2[]" value="{{ row.ts_2 }}" placeholder="0"></td>
+                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="asal_ts1[]" value="{{ row.ts_1 }}" placeholder="0"></td>
+                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="asal_ts[]" value="{{ row.ts }}" placeholder="0"></td>
+                            <td><input type="text" class="form-control form-control-sm border-0 bg-transparent auto-save-input" name="link_asal[]" value="{{ row.link_bukti|default_if_none:'' }}" placeholder="https://link-bukti.ac.id/..."></td>
                         </tr>
                         {% endfor %}
                     </tbody>

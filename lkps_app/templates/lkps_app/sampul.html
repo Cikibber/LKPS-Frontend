@@ -33,7 +33,7 @@
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-muted text-start w-100">Nama Program Studi</label>
                         <input type="text" class="form-control text-center fw-bold auto-save-input"
-                            name="sampul_nama_ps" value="{{ data.nama_ps_sampul|default_if_none:'' }}">
+                            name="sampul_nama_ps" value="{{ data.nama_ps_sampul|default_if_none:'' }}" placeholder="Contoh: Informatika / Sistem Informasi">
                     </div>
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-muted text-start w-100">Nama Perguruan
@@ -50,7 +50,7 @@
                         <div class="col-4">
                             <label class="form-label small fw-bold text-muted text-start w-100">Tahun</label>
                             <input type="number" class="form-control text-center auto-save-input" name="sampul_tahun"
-                                value="{{ data.tahun_sampul|default_if_none:'' }}">
+                                value="{{ data.tahun_sampul|default_if_none:'' }}" placeholder="Contoh: 2026">
                         </div>
                     </div>
                 </div>
@@ -66,22 +66,22 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label small fw-bold text-muted">Perguruan Tinggi</label>
-                            <input type="text" class="form-control form-control-sm auto-save-input" name="pengusul_pt" value="{{ data.perguruan_tinggi|default_if_none:'' }}">
+                            <input type="text" class="form-control form-control-sm auto-save-input" name="pengusul_pt" value="{{ data.perguruan_tinggi|default_if_none:'' }}" placeholder="Contoh: Universitas Pradita">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small fw-bold text-muted">Unit Pengelola Program Studi</label>
                             <input type="text" class="form-control form-control-sm auto-save-input"
-                                name="pengusul_upps" value="{{ data.unit_pengelola|default_if_none:'' }}">
+                                name="pengusul_upps" value="{{ data.unit_pengelola|default_if_none:'' }}" placeholder="Masukkan data...">
                         </div>
                         <div class="col-md-4">
                             <label class="form-label small fw-bold text-muted">Jenis Program</label>
                             <input type="text" class="form-control form-control-sm auto-save-input" 
-                                name="pengusul_jenis_program" value="{{ data.jenis_program|default_if_none:'' }}">
+                                name="pengusul_jenis_program" value="{{ data.jenis_program|default_if_none:'' }}" placeholder="Masukkan data...">
                         </div>
                         <div class="col-md-8">
                             <label class="form-label small fw-bold text-muted">Nama Program Studi</label>
                             <input type="text" class="form-control form-control-sm auto-save-input"
-                                name="pengusul_nama_ps" value="{{ data.nama_ps|default_if_none:'' }}">
+                                name="pengusul_nama_ps" value="{{ data.nama_ps|default_if_none:'' }}" placeholder="Contoh: Informatika / Sistem Informasi">
                         </div>
                         <div class="col-12">
                             <label class="form-label small fw-bold text-muted">Alamat</label>
@@ -104,49 +104,49 @@
                         <div class="col-md-4">
                             <label class="form-label small fw-bold text-muted">Nomor SK Pendirian PT</label>
                             <input type="text" class="form-control form-control-sm auto-save-input"
-                                name="pengusul_sk_pt" value="{{ data.sk_pt|default_if_none:'' }}">
+                                name="pengusul_sk_pt" value="{{ data.sk_pt|default_if_none:'' }}" placeholder="Masukkan data...">
                         </div>
                         <div class="col-md-4">
                             <label class="form-label small fw-bold text-muted">Tgl SK Pendirian PT</label>
                             <input type="date" class="form-control form-control-sm auto-save-input"
-                                name="pengusul_tgl_sk_pt" value="{{ data.tgl_sk_pt|date:'Y-m-d' }}">
+                                name="pengusul_tgl_sk_pt" value="{{ data.tgl_sk_pt|date:'Y-m-d' }}" placeholder="Masukkan data...">
                         </div>
                         <div class="col-md-4">
                             <label class="form-label small fw-bold text-muted">Pejabat Penandatangan</label>
                             <input type="text" class="form-control form-control-sm auto-save-input"
-                                name="pengusul_pejabat_pt" value="{{ data.pejabat_sk_pt|default_if_none:'' }}">
+                                name="pengusul_pejabat_pt" value="{{ data.pejabat_sk_pt|default_if_none:'' }}" placeholder="Masukkan data...">
                         </div>
 
                         <div class="col-md-4">
                             <label class="form-label small fw-bold text-muted">Nomor SK Pembukaan PS</label>
                             <input type="text" class="form-control form-control-sm auto-save-input"
-                                name="pengusul_sk_ps" value="{{ data.sk_ps|default_if_none:'' }}">
+                                name="pengusul_sk_ps" value="{{ data.sk_ps|default_if_none:'' }}" placeholder="Masukkan data...">
                         </div>
                         <div class="col-md-4">
                             <label class="form-label small fw-bold text-muted">Tgl SK Pembukaan PS</label>
                             <input type="date" class="form-control form-control-sm auto-save-input"
-                                name="pengusul_tgl_sk_ps" value="{{ data.tgl_sk_ps|date:'Y-m-d' }}">
+                                name="pengusul_tgl_sk_ps" value="{{ data.tgl_sk_ps|date:'Y-m-d' }}" placeholder="Masukkan data...">
                         </div>
                         <div class="col-md-4">
                             <label class="form-label small fw-bold text-muted">Pejabat Penandatangan</label>
                             <input type="text" class="form-control form-control-sm auto-save-input"
-                                name="pengusul_pejabat_ps" value="{{ data.pejabat_sk_ps|default_if_none:'' }}">
+                                name="pengusul_pejabat_ps" value="{{ data.pejabat_sk_ps|default_if_none:'' }}" placeholder="Masukkan data...">
                         </div>
 
                         <div class="col-md-4">
                             <label class="form-label small fw-bold text-muted">Tahun Pertama Menerima Mhs</label>
                             <input type="number" class="form-control form-control-sm auto-save-input"
-                                name="pengusul_tahun_mhs" value="{{ data.tahun_mhs_pertama|default_if_none:'' }}">
+                                name="pengusul_tahun_mhs" value="{{ data.tahun_mhs_pertama|default_if_none:'' }}" placeholder="0">
                         </div>
                         <div class="col-md-4">
                             <label class="form-label small fw-bold text-muted">Peringkat Akreditasi PS</label>
                             <input type="text" class="form-control form-control-sm auto-save-input"
-                                name="pengusul_peringkat" value="{{ data.peringkat_akreditasi|default_if_none:'' }}">
+                                name="pengusul_peringkat" value="{{ data.peringkat_akreditasi|default_if_none:'' }}" placeholder="Masukkan data...">
                         </div>
                         <div class="col-md-4">
                             <label class="form-label small fw-bold text-muted">Nomor SK BAN-PT</label>
                             <input type="text" class="form-control form-control-sm auto-save-input"
-                                name="pengusul_sk_banpt" value="{{ data.sk_ban_pt|default_if_none:'' }}">
+                                name="pengusul_sk_banpt" value="{{ data.sk_ban_pt|default_if_none:'' }}" placeholder="Masukkan data...">
                         </div>
                     </div>
                 </div>
@@ -180,13 +180,13 @@
                         <tr>
                             <td class="baris-nomor fw-bold bg-light">{{ forloop.counter }}</td>
                             <td><input type="text" class="form-control form-control-sm auto-save-input text-start"
-                                    name="penyusun_nama[]" value="{{ anggota.nama }}"></td>
+                                    name="penyusun_nama[]" value="{{ anggota.nama }}" placeholder="Contoh: Dr. Budi Santoso, M.T."></td>
                             <td><input type="text" class="form-control form-control-sm auto-save-input"
-                                    name="penyusun_nidn[]" value="{{ anggota.nidn }}"></td>
+                                    name="penyusun_nidn[]" value="{{ anggota.nidn }}" placeholder="Masukkan data..."></td>
                             <td><input type="text" class="form-control form-control-sm auto-save-input"
-                                    name="penyusun_jabatan[]" value="{{ anggota.jabatan }}"></td>
+                                    name="penyusun_jabatan[]" value="{{ anggota.jabatan }}" placeholder="Masukkan data..."></td>
                             <td><input type="date" class="form-control form-control-sm auto-save-input"
-                                    name="penyusun_tanggal[]" value="{{ anggota.tanggal_pengisian|date:'Y-m-d' }}"></td>
+                                    name="penyusun_tanggal[]" value="{{ anggota.tanggal_pengisian|date:'Y-m-d' }}" placeholder="Masukkan data..."></td>
                             <td>
                                 {% if anggota.tanda_tangan %}
                                 <small class="text-success">Tersimpan</small>
@@ -202,13 +202,13 @@
                         <tr>
                             <td class="baris-nomor fw-bold bg-light">1</td>
                             <td><input type="text" class="form-control form-control-sm auto-save-input text-start"
-                                    name="penyusun_nama[]"></td>
+                                    name="penyusun_nama[]" placeholder="Contoh: Dr. Budi Santoso, M.T."></td>
                             <td><input type="text" class="form-control form-control-sm auto-save-input"
-                                    name="penyusun_nidn[]"></td>
+                                    name="penyusun_nidn[]" placeholder="Masukkan data..."></td>
                             <td><input type="text" class="form-control form-control-sm auto-save-input"
-                                    name="penyusun_jabatan[]"></td>
+                                    name="penyusun_jabatan[]" placeholder="Masukkan data..."></td>
                             <td><input type="date" class="form-control form-control-sm auto-save-input"
-                                    name="penyusun_tanggal[]"></td>
+                                    name="penyusun_tanggal[]" placeholder="Masukkan data..."></td>
                             <td><input type="file" class="form-control form-control-sm auto-save-input"
                                     name="penyusun_ttd[]"></td>
                             <td><button type="button" class="btn btn-sm btn-outline-danger btn-hapus" disabled><i

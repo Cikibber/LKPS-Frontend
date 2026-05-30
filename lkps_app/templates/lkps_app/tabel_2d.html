@@ -38,11 +38,11 @@
                                     <option value="Dunia Kerja" {% if row.sumber == 'Dunia Kerja' %}selected{% endif %}>Dunia Kerja</option>
                                 </select>
                             </td>
-                            <td><input type="text" class="form-control form-control-sm border-0 bg-transparent auto-save-input" name="jenis_pengakuan[]" value="{{ row.jenis_pengakuan }}"></td>
-                            <td><input type="number" name="ts_2[]" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" value="{{ row.ts_2 }}"></td>
-                            <td><input type="number" name="ts_1[]" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" value="{{ row.ts_1 }}"></td>
-                            <td><input type="number" name="ts[]" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" value="{{ row.ts }}"></td>
-                            <td><input type="text" class="form-control form-control-sm border-0 bg-transparent auto-save-input" name="link_bukti[]" value="{{ row.link_bukti|default_if_none:'' }}"></td>
+                            <td><input type="text" class="form-control form-control-sm border-0 bg-transparent auto-save-input" name="jenis_pengakuan[]" value="{{ row.jenis_pengakuan }}" placeholder="Contoh: Sertifikasi IT / Kepemimpinan / Kerjasama Tim"></td>
+                            <td><input type="number" name="ts_2[]" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" value="{{ row.ts_2 }}" placeholder="0"></td>
+                            <td><input type="number" name="ts_1[]" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" value="{{ row.ts_1 }}" placeholder="0"></td>
+                            <td><input type="number" name="ts[]" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" value="{{ row.ts }}" placeholder="0"></td>
+                            <td><input type="text" class="form-control form-control-sm border-0 bg-transparent auto-save-input" name="link_bukti[]" value="{{ row.link_bukti|default_if_none:'' }}" placeholder="https://link-bukti.ac.id/..."></td>
                             <td><button type="button" class="btn btn-sm btn-outline-danger btn-hapus-baris"><i class="fas fa-trash"></i></button></td>
                         </tr>
                         {% empty %}

@@ -46,15 +46,15 @@
                         {% for dosen in data %}
                         <tr class="baris-dtpr">
                             <td class="baris-nomor">{{ forloop.counter }}</td>
-                            <td><input type="text" class="form-control form-control-sm text-start auto-save-input" name="nama_dtpr[]" value="{{ dosen.nama_dosen }}"></td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_pengajaran_ps_sendiri[]" value="{{ dosen.sks_ps_sendiri }}"></td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_pengajaran_ps_lain[]" value="{{ dosen.sks_ps_lain }}"></td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_pengajaran_pt_lain[]" value="{{ dosen.sks_pt_lain }}"></td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_penelitian[]" value="{{ dosen.sks_penelitian }}"></td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_pengabdian[]" value="{{ dosen.sks_pkm }}"></td>
+                            <td><input type="text" class="form-control form-control-sm text-start auto-save-input" name="nama_dtpr[]" value="{{ dosen.nama_dosen }}" placeholder="Contoh: Dr. Budi Santoso, M.T."></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_pengajaran_ps_sendiri[]" value="{{ dosen.sks_ps_sendiri }}" placeholder="0"></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_pengajaran_ps_lain[]" value="{{ dosen.sks_ps_lain }}" placeholder="0"></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_pengajaran_pt_lain[]" value="{{ dosen.sks_pt_lain }}" placeholder="0"></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_penelitian[]" value="{{ dosen.sks_penelitian }}" placeholder="0"></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_pengabdian[]" value="{{ dosen.sks_pkm }}" placeholder="0"></td>
                             
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_manajemen_pt_sendiri[]" value="{{ dosen.sks_tambahan }}"></td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_manajemen_pt_lain[]" value="0"></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_manajemen_pt_sendiri[]" value="{{ dosen.sks_tambahan }}" placeholder="0"></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_manajemen_pt_lain[]" value="0" placeholder="0"></td>
                             
                             <td><input type="text" class="form-control form-control-sm text-center bg-light total-sks fw-bold text-primary" readonly value="0.0"></td>
                             <td>
@@ -64,14 +64,14 @@
                         {% empty %}
                         <tr class="baris-dtpr">
                             <td class="baris-nomor">1</td>
-                            <td><input type="text" class="form-control form-control-sm text-start auto-save-input" name="nama_dtpr[]"></td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_pengajaran_ps_sendiri[]" value="0"></td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_pengajaran_ps_lain[]" value="0"></td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_pengajaran_pt_lain[]" value="0"></td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_penelitian[]" value="0"></td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_pengabdian[]" value="0"></td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_manajemen_pt_sendiri[]" value="0"></td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_manajemen_pt_lain[]" value="0"></td>
+                            <td><input type="text" class="form-control form-control-sm text-start auto-save-input" name="nama_dtpr[]" placeholder="Contoh: Dr. Budi Santoso, M.T."></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_pengajaran_ps_sendiri[]" value="0" placeholder="0"></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_pengajaran_ps_lain[]" value="0" placeholder="0"></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_pengajaran_pt_lain[]" value="0" placeholder="0"></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_penelitian[]" value="0" placeholder="0"></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_pengabdian[]" value="0" placeholder="0"></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_manajemen_pt_sendiri[]" value="0" placeholder="0"></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm text-center input-sks auto-save-input" name="sks_manajemen_pt_lain[]" value="0" placeholder="0"></td>
                             <td><input type="text" class="form-control form-control-sm text-center bg-light total-sks fw-bold text-primary" readonly value="0.0"></td>
                             <td>
                                 <button type="button" class="btn btn-sm btn-outline-danger btn-hapus-baris" disabled><i class="fas fa-trash"></i></button>

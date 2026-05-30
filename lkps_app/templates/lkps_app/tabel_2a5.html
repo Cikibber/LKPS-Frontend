@@ -29,14 +29,14 @@
                     <tbody id="tbody-2b5">
                         {% for row in data_2b5 %}
                         <tr>
-                            <td><input type="text" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="tahun_lulus_bk[]" value="{{ row.tahun_lulus }}" readonly></td>
-                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="jml_lulusan_bk[]" value="{{ row.jml_lulusan }}"></td>
-                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="jml_terlacak_bk[]" value="{{ row.jml_terlacak }}"></td>
-                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="bidang_infokom[]" value="{{ row.bidang_infokom }}"></td>
-                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="bidang_non_infokom[]" value="{{ row.bidang_non_infokom }}"></td>
-                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="tingkat_multinasional[]" value="{{ row.tingkat_multinasional }}"></td>
-                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="tingkat_nasional[]" value="{{ row.tingkat_nasional }}"></td>
-                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="tingkat_wirausaha[]" value="{{ row.tingkat_wirausaha }}"></td>
+                            <td><input type="text" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="tahun_lulus_bk[]" value="{{ row.tahun_lulus }}" readonly placeholder="Contoh: TS-2 / TS-1 / TS"></td>
+                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="jml_lulusan_bk[]" value="{{ row.jml_lulusan }}" placeholder="0"></td>
+                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="jml_terlacak_bk[]" value="{{ row.jml_terlacak }}" placeholder="0"></td>
+                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="bidang_infokom[]" value="{{ row.bidang_infokom }}" placeholder="Masukkan data..."></td>
+                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="bidang_non_infokom[]" value="{{ row.bidang_non_infokom }}" placeholder="Masukkan data..."></td>
+                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="tingkat_multinasional[]" value="{{ row.tingkat_multinasional }}" placeholder="Masukkan data..."></td>
+                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="tingkat_nasional[]" value="{{ row.tingkat_nasional }}" placeholder="Masukkan data..."></td>
+                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="tingkat_wirausaha[]" value="{{ row.tingkat_wirausaha }}" placeholder="Masukkan data..."></td>
                         </tr>
                         {% empty %}
                         <tr>

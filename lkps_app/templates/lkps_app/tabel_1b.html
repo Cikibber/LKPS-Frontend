@@ -31,13 +31,13 @@
                     <tbody id="tbody-1b">
                         {% for row in data_1b %}
                         <tr>
-                            <td><input type="text" class="form-control form-control-sm border-0 bg-transparent auto-save-input" name="nama_unit[]" value="{{ row.nama_unit }}"></td>
-                            <td><input type="text" class="form-control form-control-sm border-0 bg-transparent auto-save-input" name="dokumen[]" value="{{ row.dokumen }}"></td>
-                            <td><input type="number" name="jml_auditor_cert[]" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" value="{{ row.jml_auditor_cert }}"></td>
-                            <td><input type="number" name="jml_auditor_non[]" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" value="{{ row.jml_auditor_non }}"></td>
-                            <td><input type="number" name="frekuensi_audit[]" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" value="{{ row.frekuensi_audit }}"></td>
-                            <td><input type="text" class="form-control form-control-sm border-0 bg-transparent auto-save-input" name="link_pt[]" value="{{ row.link_pt|default_if_none:'' }}"></td>
-                            <td><input type="text" class="form-control form-control-sm border-0 bg-transparent auto-save-input" name="link_upps[]" value="{{ row.link_upps|default_if_none:'' }}"></td>
+                            <td><input type="text" class="form-control form-control-sm border-0 bg-transparent auto-save-input" name="nama_unit[]" value="{{ row.nama_unit }}" placeholder="Contoh: SPMI Pradita"></td>
+                            <td><input type="text" class="form-control form-control-sm border-0 bg-transparent auto-save-input" name="dokumen[]" value="{{ row.dokumen }}" placeholder="Contoh: SK-01 / Permenristek"></td>
+                            <td><input type="number" name="jml_auditor_cert[]" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" value="{{ row.jml_auditor_cert }}" placeholder="0"></td>
+                            <td><input type="number" name="jml_auditor_non[]" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" value="{{ row.jml_auditor_non }}" placeholder="0"></td>
+                            <td><input type="number" name="frekuensi_audit[]" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" value="{{ row.frekuensi_audit }}" placeholder="Masukkan data..."></td>
+                            <td><input type="text" class="form-control form-control-sm border-0 bg-transparent auto-save-input" name="link_pt[]" value="{{ row.link_pt|default_if_none:'' }}" placeholder="https://link-bukti.ac.id/..."></td>
+                            <td><input type="text" class="form-control form-control-sm border-0 bg-transparent auto-save-input" name="link_upps[]" value="{{ row.link_upps|default_if_none:'' }}" placeholder="https://link-bukti.ac.id/..."></td>
                             <td><button type="button" class="btn btn-sm btn-outline-danger btn-hapus-baris"><i class="fas fa-trash"></i></button></td>
                         </tr>
                         {% empty %}

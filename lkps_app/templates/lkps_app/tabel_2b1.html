@@ -24,9 +24,9 @@
                     <tbody id="tbody-2b1">
                         {% for row in data_mk %}
                         <tr>
-                            <td><input type="text" class="form-control form-control-sm border-0 auto-save-input" name="nama_mk[]" value="{{ row.nama_mk }}"></td>
-                            <td><input type="number" class="form-control form-control-sm border-0 auto-save-input text-center" name="sks_mk[]" value="{{ row.sks }}"></td>
-                            <td><input type="number" class="form-control form-control-sm border-0 auto-save-input text-center" name="smt_mk[]" value="{{ row.semester }}"></td>
+                            <td><input type="text" class="form-control form-control-sm border-0 auto-save-input" name="nama_mk[]" value="{{ row.nama_mk }}" placeholder="Contoh: Algoritma Pemrograman"></td>
+                            <td><input type="number" class="form-control form-control-sm border-0 auto-save-input text-center" name="sks_mk[]" value="{{ row.sks }}" placeholder="0"></td>
+                            <td><input type="number" class="form-control form-control-sm border-0 auto-save-input text-center" name="smt_mk[]" value="{{ row.semester }}" placeholder="Masukkan data..."></td>
                             <td class="text-center">
                                 <input type="hidden" name="pl1[]" value="{% if row.pl1 %}1{% else %}0{% endif %}">
                                 <input type="checkbox" class="form-check-input auto-save-input" {% if row.pl1 %}checked{% endif %} onchange="this.previousElementSibling.value=this.checked?'1':'0';">
@@ -48,8 +48,8 @@
                         {% empty %}
                         <tr>
                             <td><input type="text" class="form-control form-control-sm border-0 auto-save-input" name="nama_mk[]" placeholder="Nama MK"></td>
-                            <td><input type="number" class="form-control form-control-sm border-0 auto-save-input text-center" name="sks_mk[]"></td>
-                            <td><input type="number" class="form-control form-control-sm border-0 auto-save-input text-center" name="smt_mk[]"></td>
+                            <td><input type="number" class="form-control form-control-sm border-0 auto-save-input text-center" name="sks_mk[]" placeholder="0"></td>
+                            <td><input type="number" class="form-control form-control-sm border-0 auto-save-input text-center" name="smt_mk[]" placeholder="Masukkan data..."></td>
                             <td class="text-center"><input type="hidden" name="pl1[]" value="0"><input type="checkbox" class="form-check-input auto-save-input" onchange="this.previousElementSibling.value=this.checked?'1':'0';"></td>
                             <td class="text-center"><input type="hidden" name="pl2[]" value="0"><input type="checkbox" class="form-check-input auto-save-input" onchange="this.previousElementSibling.value=this.checked?'1':'0';"></td>
                             <td class="text-center"><input type="hidden" name="pl3[]" value="0"><input type="checkbox" class="form-check-input auto-save-input" onchange="this.previousElementSibling.value=this.checked?'1':'0';"></td>

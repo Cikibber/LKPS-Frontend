@@ -18,10 +18,10 @@
                     <tbody id="tbody-2b4">
                         {% for row in data_2b4 %}
                         <tr>
-                            <td><input type="text" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="tahun_lulus_mt[]" value="{{ row.tahun_lulus }}" readonly></td>
-                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="jml_lulusan_mt[]" value="{{ row.jml_lulusan }}"></td>
-                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="jml_terlacak_mt[]" value="{{ row.jml_terlacak }}"></td>
-                            <td><input type="number" step="0.1" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="waktu_tunggu[]" value="{{ row.waktu_tunggu }}"></td>
+                            <td><input type="text" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="tahun_lulus_mt[]" value="{{ row.tahun_lulus }}" readonly placeholder="Contoh: TS-2 / TS-1 / TS"></td>
+                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="jml_lulusan_mt[]" value="{{ row.jml_lulusan }}" placeholder="0"></td>
+                            <td><input type="number" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="jml_terlacak_mt[]" value="{{ row.jml_terlacak }}" placeholder="0"></td>
+                            <td><input type="number" step="0.1" class="form-control form-control-sm border-0 bg-transparent auto-save-input text-center" name="waktu_tunggu[]" value="{{ row.waktu_tunggu }}" placeholder="0,0 (Bulan)"></td>
                         </tr>
                         {% empty %}
                         <tr>
