@@ -9,9 +9,16 @@ __pycache__/
 # Folder Virtual Environment (PENTING!)
 env/
 venv/
+.venv/
 ENV/
 env.bak/
 venv.bak/
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
 
 # File Database Lokal Django (PENTING!)
 db.sqlite3
