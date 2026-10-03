@@ -232,8 +232,9 @@ def export_lkps_word(request):
 # ==========================================
 # CHATBOT & UTILS
 # ==========================================
-GEMINI_API_KEY = "AIzaSyBNTztqmQ978wn3w9f13r04pw3_Nd2ffvg"
-genai.configure(api_key=GEMINI_API_KEY)
+GEMINI_API_KEY = settings.GEMINI_API_KEY
+if GEMINI_API_KEY:
+    genai.configure(api_key=GEMINI_API_KEY)
 
 def chatbot_api(request):
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
